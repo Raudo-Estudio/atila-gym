@@ -1,0 +1,30 @@
+---
+import { SITE } from '../../data/site';
+import Button from '../Button.astro';
+import Section from '../Section.astro';
+---
+<Section id="planes" tone="plancha">
+  <div class="split">
+    <div>
+      <h2>Cuotas y planes en Pacheco</h2>
+      <p class="lead">Escribinos y te pasamos la cuota vigente y las formas de pago.</p>
+    </div>
+    <div class="planes__options">
+      <div>
+        <h3>Cuota del gym</h3>
+        <p>Incluye salones, profes en sala y la app Atila Coach.</p>
+        <Button href={SITE.whatsappUrl} external>Consultar la cuota</Button>
+      </div>
+      <div>
+        <h3>Wellhub</h3>
+        <p>Atila Gym Pacheco está disponible en Wellhub.</p>
+        <Button href={SITE.wellhubUrl} variant="quiet" external>Ver en Wellhub</Button>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .planes__options { display: grid; gap: 3rem; }
+  .planes__options p { margin-block: 0.5rem 1rem; color: var(--metal); }
+</style>
