@@ -1,0 +1,18 @@
+---
+interface Props {
+  id?: string;
+  tone?: 'carbon' | 'plancha' | 'rojo';
+}
+const { id, tone = 'carbon' } = Astro.props;
+---
+<section id={id} class:list={['section', `section--${tone}`]}>
+  <div class="section__inner"><slot /></div>
+</section>
+
+<style>
+  .section { padding-block: var(--section-space); }
+  .section__inner { padding-inline: var(--margin); }
+  .section--carbon { background: var(--carbon); }
+  .section--plancha { background: var(--plancha); }
+  .section--rojo { background: var(--rojo); }
+</style>

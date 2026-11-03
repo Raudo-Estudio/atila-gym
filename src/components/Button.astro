@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'quiet';
+  external?: boolean;
+}
+const { href, variant = 'primary', external = false } = Astro.props;
+---
+<a
+  class:list={['button', `button--${variant}`]}
+  href={href}
+  {...external ? { target: '_blank', rel: 'noopener' } : {}}
+><slot /></a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3.25rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .button--primary { background: var(--rojo); color: var(--blanco); }
+  .button--primary:hover { background: var(--blanco); color: var(--carbon); }
+  .button--quiet { padding-inline: 0; text-decoration: underline; text-underline-offset: 0.25em; }
+  .button--quiet:hover { color: var(--metal); }
+</style>
