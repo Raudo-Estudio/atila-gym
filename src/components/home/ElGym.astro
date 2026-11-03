@@ -29,6 +29,6 @@ import Section from '../Section.astro';
   .gym__photos { display: grid; gap: 1rem; margin-top: 4rem; }
   @media (min-width: 48rem) {
     .gym__photos { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
-    .gym__photos > :first-child { grid-row: span 2; height: 100%; aspect-ratio: auto !important; }
+    .gym__photos > :global(:first-child) { grid-row: span 2; height: 100%; aspect-ratio: auto !important; }
   }
 </style>
