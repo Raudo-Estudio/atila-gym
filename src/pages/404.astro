@@ -1,0 +1,30 @@
+---
+import Button from '../components/Button.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import Section from '../components/Section.astro';
+import { SITE } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Página no encontrada | Atila Gym"
+  description="Esta página no existe. Volvé al inicio de Atila Gym o escribinos por WhatsApp."
+>
+  <Section>
+    <h1 class="error__title">Esta página no existe</h1>
+    <p class="error__text">
+      Puede que el enlace esté mal escrito. Seguimos en {SITE.streetAddress}, {SITE.locality}.
+    </p>
+    <OpenStatus />
+    <div class="error__actions">
+      <Button href="/">Volver al inicio</Button>
+      <Button href={SITE.whatsappUrl} variant="quiet" external>Escribinos por WhatsApp</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* The header is absolute, same clearance as the hero. */
+  .error__title { margin-top: 6rem; font-size: var(--step-title); }
+  .error__text { margin-block: 1.5rem 0.5rem; font-size: var(--step-lead); }
+  .error__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2.5rem; }
+</style>

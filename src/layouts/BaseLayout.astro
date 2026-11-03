@@ -28,5 +28,9 @@ const { title, description, ogImage } = Astro.props;
     <main id="contenido"><slot /></main>
     <Footer />
     <WhatsAppBar />
+    <script>
+      import { trackClicks } from '../lib/track';
+      trackClicks();
+    </script>
   </body>
 </html>

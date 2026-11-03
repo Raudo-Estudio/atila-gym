@@ -40,9 +40,9 @@ export const SITE = {
 } as const;
 
 export const NAV = [
-  { href: '#el-gym', label: 'El gym' },
-  { href: '#salones', label: 'Salones' },
-  { href: '#app', label: 'App' },
-  { href: '#planes', label: 'Planes' },
-  { href: '#horarios', label: 'Horarios' },
+  { href: '/#el-gym', label: 'El gym' },
+  { href: '/#salones', label: 'Salones' },
+  { href: '/#app', label: 'App' },
+  { href: '/#planes', label: 'Planes' },
+  { href: '/#horarios', label: 'Horarios' },
 ] as const;
