@@ -17,6 +17,9 @@ describe('getStatus', () => {
   it('domingo cerrado y sin barra', () => {
     expect(getStatus(new Date('2026-11-08T12:00:00-03:00'))).toMatchObject({ open: false, opensAt: { day: 'lunes', time: '07:00' }, dayProgress: null });
   });
+  it('devuelve el horario de hoy para rotular la barra', () => {
+    expect(getStatus(new Date('2026-11-07T12:00:00-03:00')).today).toMatchObject({ open: '10:00', close: '20:00' });
+  });
   it('antes de abrir, abre el mismo día', () => {
     expect(getStatus(new Date('2026-11-03T06:30:00-03:00'))).toMatchObject({ open: false, opensAt: { day: 'martes', time: '07:00' }, dayProgress: 0 });
   });

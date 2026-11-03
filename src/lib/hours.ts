@@ -9,6 +9,7 @@ export interface OpenStatus {
   opensAt?: { day: string; time: string };
   /** 0 a 1 dentro del horario del día; null si hoy no abre. */
   dayProgress: number | null;
+  today: DayHours;
 }
 
 const toMinutes = (time: string) => {
@@ -44,17 +45,17 @@ export function getStatus(now: Date, schedule: DayHours[] = HOURS): OpenStatus {
   const today = schedule[weekday];
 
   if (!today.open || !today.close) {
-    return { open: false, opensAt: nextOpening(weekday, schedule), dayProgress: null };
+    return { open: false, opensAt: nextOpening(weekday, schedule), dayProgress: null, today };
   }
 
   const opens = toMinutes(today.open);
   const closes = toMinutes(today.close);
 
   if (minutes < opens) {
-    return { open: false, opensAt: { day: today.day, time: today.open }, dayProgress: 0 };
+    return { open: false, opensAt: { day: today.day, time: today.open }, dayProgress: 0, today };
   }
   if (minutes >= closes) {
-    return { open: false, opensAt: nextOpening(weekday, schedule), dayProgress: 1 };
+    return { open: false, opensAt: nextOpening(weekday, schedule), dayProgress: 1, today };
   }
-  return { open: true, closesAt: today.close, dayProgress: (minutes - opens) / (closes - opens) };
+  return { open: true, closesAt: today.close, dayProgress: (minutes - opens) / (closes - opens), today };
 }

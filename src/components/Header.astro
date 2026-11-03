@@ -6,7 +6,7 @@ import { NAV } from '../data/site';
   <nav aria-label="Principal">
     <ul class="header__nav">
       {NAV.map(({ href, label }) => (
-        <li><a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a></li>
+        <li><a href={href}>{label}</a></li>
       ))}
     </ul>
   </nav>
@@ -38,5 +38,5 @@ import { NAV } from '../data/site';
     font-size: 0.9375rem;
   }
   .header__nav a { display: inline-block; padding-block: 0.5rem; text-decoration: none; }
-  .header__nav a:hover, .header__nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.3em; }
+  .header__nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
 </style>

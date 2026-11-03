@@ -4,7 +4,7 @@
 
 **Goal:** Construir la estructura completa de la web de Atila Gym, con un commit por cada parte o sección.
 
-**Architecture:** Sitio estático de Astro con 5 páginas. Los datos del negocio viven en un solo archivo y alimentan páginas, SEO y JSON-LD. El único JavaScript propio es el estado "abierto ahora" de la barra del día.
+**Architecture:** Landing estática de una sola página en Astro (`/`), con una sección por intención de búsqueda. Los datos del negocio viven en un solo archivo y alimentan páginas, SEO y JSON-LD. El único JavaScript propio es el estado "abierto ahora" de la barra del día.
 
 **Tech Stack:** Astro 7.4.5, TypeScript estricto, CSS con custom properties, `@astrojs/sitemap` 3.7.4, `@fontsource/barlow` y `@fontsource/barlow-condensed` 5.3.0, Vitest. Sin Tailwind ni framework de UI.
 
@@ -137,45 +137,35 @@ expect(getStatus(new Date('2026-11-08T12:00:00-03:00'))).toMatchObject({ open: f
 
 **Files:** `src/components/Header.astro`, `src/components/Footer.astro`, `src/components/WhatsAppBar.astro`
 
-- [ ] **Paso 1:** Navegación a las 5 páginas, operable con teclado. Logo en texto hasta recibir el vector.
+- [ ] **Paso 1:** Navegación por anclas a las secciones, operable con teclado. Logo en texto hasta recibir el vector.
 - [ ] **Paso 2:** Barra de WhatsApp fija solo en celular, sin tapar el pie.
 - [ ] **Paso 3:** Revisar a 320, 768 y 1440 px.
 - [ ] **Paso 4:** Commit `feat: add header, footer and WhatsApp bar`.
 
-### Tareas 7 a 13: Secciones de Inicio (un commit cada una)
+### Tareas 7 a 14: Secciones de la landing (un commit cada una)
 
-Cada componente va en `src/components/home/` y se monta en `src/pages/index.astro`. Después de cada uno: `npm run build` y captura a 320, 768 y 1440 px.
+Decisión del 3 de noviembre: la web es una landing, no un sitio de 5 páginas. Cada componente va en `src/components/home/` y se monta en `src/pages/index.astro`. Después de cada uno: `npm run build`. Un solo H1; cada sección tiene `id` y H2 propio.
 
-| Tarea | Componente | Contenido | Commit |
-| --- | --- | --- | --- |
-| 7 | `Hero.astro` | H1 del brief con foto dentro de la línea, frase de apoyo, WhatsApp y estado | `feat(home): add hero` |
-| 8 | `Razones.astro` | Salones por grupo muscular, profes en sala y app, en lista tipográfica | `feat(home): add reasons` |
-| 9 | `Salones.astro` y `PhotoSlot.astro` | Galería de salones con slots `Foto pendiente` y `alt` descriptivo | `feat(home): add rooms gallery` |
-| 10 | `AtilaCoach.astro` | Rutina según objetivos, ajuste cada 6 semanas, progreso y recetas | `feat(home): add Atila Coach section` |
-| 11 | `Resenas.astro` | 4,7 sobre 723 en Google y enlace al perfil; citas elegidas por el gimnasio | `feat(home): add reviews` |
-| 12 | `BarraDelDia.astro`, `Mapa.astro` | Horarios en HTML, barra con marcador por JS, cómo llegar y mapa | `feat(home): add hours bar and map` |
-| 13 | `Cierre.astro` | WhatsApp e Instagram | `feat(home): add closing call to action` |
+| Tarea | Componente | Ancla | H2 y búsqueda | Commit |
+| --- | --- | --- | --- | --- |
+| 7 | `Hero.astro` | arriba | H1: gimnasio en General Pacheco | `feat(home): add hero` |
+| 8 | `ElGym.astro`, `PhotoSlot.astro` | `#el-gym` | Gimnasio de musculación en Pacheco | `feat(home): add gym section` |
+| 9 | `AtilaCoach.astro` | `#app` | App de rutinas incluida | `feat(home): add Atila Coach section` |
+| 10 | `Resenas.astro` | `#resenas` | Reseñas de socios en Google | `feat(home): add reviews` |
+| 11 | `Planes.astro` | `#planes` | Cuotas y planes en Pacheco | `feat(home): add plans` |
+| 12 | `BarraDelDia.astro` | `#horarios` | Horarios y cómo llegar | `feat(home): add hours bar and map` |
+| 13 | `Preguntas.astro` | `#preguntas` | Preguntas frecuentes, con JSON-LD FAQPage | `feat(home): add FAQ` |
+| 14 | `Cierre.astro` | sin ancla | Vení a conocer el gym | `feat(home): add closing call to action` |
 
-### Tareas 14 a 17: Páginas internas (un commit cada una)
-
-| Tarea | Página | Contenido | Commit |
-| --- | --- | --- | --- |
-| 14 | `src/pages/el-gym.astro` | Salones, equipamiento, vestuarios y comunidad | `feat: add El gym page` |
-| 15 | `src/pages/atila-coach.astro` | Cómo funciona, qué incluye y enlaces de descarga pendientes | `feat: add Atila Coach page` |
-| 16 | `src/pages/planes.astro` | Consulta por WhatsApp, Wellhub y preguntas frecuentes solo con datos confirmados | `feat: add Planes page` |
-| 17 | `src/pages/contacto.astro` | WhatsApp, dirección, horarios y mapa | `feat: add Contacto page` |
-
-Cada página lleva title, description y H1 propios, con la búsqueda principal indicada en el brief.
-
-### Tarea 18: SEO técnico final
+### Tarea 15: SEO técnico final
 
 **Files:** `public/robots.txt`, `public/og.jpg`, `src/pages/404.astro`, `src/lib/track.ts`
 
 - [ ] **Paso 1:** Agregar robots con sitemap, página 404 útil y eventos en clics de WhatsApp, llamada y cómo llegar.
-- [ ] **Paso 2:** `npm run build`. Esperado: `sitemap-index.xml`, 6 páginas HTML y un solo H1 por página.
+- [ ] **Paso 2:** `npm run build`. Esperado: `sitemap-index.xml` con una sola URL, `/` y `404.html`, y un solo H1.
 - [ ] **Paso 3:** Commit `feat: add robots, 404 and click tracking`.
 
-### Tarea 19: Revisión final
+### Tarea 16: Revisión final
 
 - [ ] **Paso 1:** Correr `npm test`, `npm run build`, los scripts `lint.mjs` e `inspect.mjs` y revisar capturas en Chromium.
 - [ ] **Paso 2:** Medir LCP menor a 2,5 s, CLS menor a 0,1 y accesibilidad sin errores graves.

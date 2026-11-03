@@ -33,11 +33,15 @@ export const SITE = {
   instagramUrl: 'https://www.instagram.com/atilagym_/',
   facebookUrl: 'https://www.facebook.com/comunidadatila/',
   rating: { value: '4,7', count: 723 },
+  googleReviewsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJA8cDOYWkvJURzp8mOoxPhUw',
+  directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-34.46,-58.6353',
+  mapEmbedUrl: 'https://www.google.com/maps?q=-34.46,-58.6353&z=16&output=embed',
+  wellhubUrl: 'https://wellhub.com/es-ar/search/partners/atila-gym-pacheco/',
 } as const;
 
 export const NAV = [
-  { href: '/el-gym', label: 'El gym' },
-  { href: '/atila-coach', label: 'App' },
-  { href: '/planes', label: 'Planes' },
-  { href: '/contacto', label: 'Contacto' },
+  { href: '#el-gym', label: 'El gym' },
+  { href: '#app', label: 'App' },
+  { href: '#planes', label: 'Planes' },
+  { href: '#horarios', label: 'Horarios' },
 ] as const;
