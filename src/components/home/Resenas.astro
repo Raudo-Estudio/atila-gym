@@ -1,0 +1,18 @@
+---
+import { SITE } from '../../data/site';
+import Button from '../Button.astro';
+import Section from '../Section.astro';
+---
+<Section id="resenas">
+  <h2>Reseñas de socios en Google</h2>
+  <p class="resenas__sentence">{SITE.rating.value} sobre 5 en {SITE.rating.count} reseñas.</p>
+  <Button href={SITE.googleReviewsUrl} variant="quiet" external>Leer las reseñas en Google</Button>
+</Section>
+
+<style>
+  .resenas__sentence {
+    margin-block: 1.5rem 1rem;
+    max-width: none;
+    font-size: var(--step-lead);
+  }
+</style>
