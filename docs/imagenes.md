@@ -7,7 +7,7 @@ La página tiene 4 espacios de imagen. Mientras no hay archivo, cada uno muestra
 | `portada.jpg` | Portada, a la derecha del título | 4:5 vertical | Foto real del gym o imagen generada |
 | `salon-pesos.jpg` | Salones: pesos libres | 3:2 horizontal | Foto real |
 | `sala-maquinas.jpg` | Salones: sala de máquinas | 3:2 horizontal | Foto real |
-| `vestuarios.jpg` | Qué incluye la cuota | 4:5 vertical | Foto real |
+| `vestuarios.jpg` | Salones: pestaña Vestuarios | 3:2 horizontal | Foto real |
 
 Tratamiento común: color natural, tonos fríos y oscuros, un toque de rojo en el lugar (discos, tapizados, luces), luz suave de salón, sin filtros fuertes. La página ya es roja, negra y gris; las fotos tienen que acompañar, no competir.
 
@@ -41,6 +41,12 @@ Photograph, horizontal 3:2. Close-up of a long rack of hexagonal black rubber du
 
 ```text
 Photograph, horizontal 3:2. Side view of a modern selectorized strength machine: black steel frame, a stack of matte black weight plates with a chrome pin, red upholstered seat, in a clean gym with dark grey walls. Soft overhead light, shallow depth of field, premium and minimal, natural colour. No people, no text, no logos.
+```
+
+### Vestuarios (3:2 horizontal)
+
+```text
+Photograph, horizontal 3:2. A modern gym locker room: a row of matte black lockers, a long bench upholstered in deep red, and a glass-walled shower area with dark grey stone tiles in the background. Clean, tidy and empty, warm soft ceiling light, a towel folded on the bench. Premium, minimal, natural colour, shot on a 35mm lens at eye level. No people, no text, no logos, no mirrors facing the camera.
 ```
 
 ### Manos con tiza (4:5 vertical, alternativa para la cuota)
