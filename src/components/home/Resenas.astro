@@ -4,15 +4,16 @@ import Button from '../Button.astro';
 import Section from '../Section.astro';
 ---
 <Section id="resenas">
-  <h2>Reseñas de socios en Google</h2>
-  <p class="resenas__sentence">{SITE.rating.value} sobre 5 en {SITE.rating.count} reseñas.</p>
-  <Button href={SITE.googleReviewsUrl} variant="quiet" external>Leer las reseñas en Google</Button>
+  <div class="section-head resenas">
+    <h2>Reseñas de socios en Google</h2>
+    <div class="section-head__side">
+      <p class="resenas__sentence">{SITE.rating.value} sobre 5 en {SITE.rating.count} reseñas.</p>
+      <Button href={SITE.googleReviewsUrl} variant="quiet" external>Leer las reseñas en Google</Button>
+    </div>
+  </div>
 </Section>
 
 <style>
-  .resenas__sentence {
-    margin-block: 1.5rem 1rem;
-    max-width: none;
-    font-size: var(--step-lead);
-  }
+  .resenas { margin-bottom: 0; }
+  .resenas__sentence { font-size: var(--step-lead); line-height: 1.2; }
 </style>
