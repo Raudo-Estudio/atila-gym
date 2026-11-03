@@ -1,7 +1,7 @@
 ---
 interface Props {
   id?: string;
-  tone?: 'carbon' | 'plancha' | 'rojo';
+  tone?: 'carbon' | 'plancha' | 'rojo' | 'brasa';
 }
 const { id, tone = 'carbon' } = Astro.props;
 ---
@@ -15,4 +15,5 @@ const { id, tone = 'carbon' } = Astro.props;
   .section--carbon { background: var(--carbon); }
   .section--plancha { background: var(--plancha); }
   .section--rojo { background: var(--rojo); }
+  .section--brasa { background: radial-gradient(60% 90% at 90% 50%, var(--brasa), var(--carbon) 75%); }
 </style>

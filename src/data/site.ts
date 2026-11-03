@@ -41,6 +41,7 @@ export const SITE = {
 
 export const NAV = [
   { href: '#el-gym', label: 'El gym' },
+  { href: '#salones', label: 'Salones' },
   { href: '#app', label: 'App' },
   { href: '#planes', label: 'Planes' },
   { href: '#horarios', label: 'Horarios' },

@@ -1,0 +1,41 @@
+---
+import { SITE } from '../../data/site';
+import Button from '../Button.astro';
+import PhotoSlot from '../PhotoSlot.astro';
+import Section from '../Section.astro';
+
+const rooms = [
+  { title: 'Salón de pesos libres', text: 'Barras, mancuernas y espacio para entrenar cómodo.', label: 'salón de pesos libres' },
+  { title: 'Sala de máquinas', text: 'Máquinas distribuidas por grupo muscular y bien mantenidas.', label: 'sala de máquinas' },
+  { title: 'Vestuarios y duchas', text: 'Para salir del gym directo al trabajo o a casa.', label: 'vestuarios' },
+];
+---
+<Section id="salones">
+  <div class="section-head">
+    <h2>Conocé los salones</h2>
+    <div class="section-head__side">
+      <Button href={SITE.instagramUrl} variant="quiet" external>Ver más en Instagram</Button>
+    </div>
+  </div>
+  <ul class="rooms">
+    {rooms.map(({ title, text, label }, index) => (
+      <li class:list={['room', { 'room--rojo': index === 2 }]}>
+        <PhotoSlot label={label} />
+        <div class="room__body">
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .rooms { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  .room { background: var(--tarjeta); }
+  .room__body { display: grid; gap: 0.5rem; padding: 1.5rem; }
+  .room p { color: var(--metal); }
+  .room--rojo { background: var(--rojo); }
+  .room--rojo p { color: var(--blanco); }
+  @media (min-width: 60rem) { .rooms { grid-template-columns: repeat(3, 1fr); } }
+</style>
