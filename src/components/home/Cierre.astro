@@ -1,0 +1,17 @@
+---
+import { SITE } from '../../data/site';
+import Button from '../Button.astro';
+import Section from '../Section.astro';
+---
+<Section>
+  <h2 class="cierre__title">Vení a conocer el gym</h2>
+  <div class="cierre__actions">
+    <Button href={SITE.whatsappUrl} external>Escribinos por WhatsApp</Button>
+    <Button href={SITE.instagramUrl} variant="quiet" external>Seguinos en Instagram</Button>
+  </div>
+</Section>
+
+<style>
+  .cierre__title { font-size: var(--step-display); letter-spacing: -0.03em; }
+  .cierre__actions { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 2.5rem; }
+</style>
