@@ -61,7 +61,12 @@ const rooms = [
   .room { display: grid; gap: 1.5rem; }
   .room + .room { margin-top: 2rem; }
   .salones.is-tabbed .room + .room { margin-top: 0; }
-  .room :global(.photo) { background: var(--carbon); }
+  /* Rooms dissolve into the section ground instead of sitting in a frame. */
+  .room :global(img.photo) {
+    -webkit-mask-image: radial-gradient(ellipse 62% 70% at 42% 45%, #000 35%, transparent 100%);
+    mask-image: radial-gradient(ellipse 62% 70% at 42% 45%, #000 35%, transparent 100%);
+  }
+  .room :global(.photo--pending) { background: var(--carbon); }
   .room__body { display: grid; gap: 0.75rem; align-content: end; justify-items: start; }
   .room__body p { max-width: 36ch; color: var(--metal); }
 

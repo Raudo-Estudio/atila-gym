@@ -43,7 +43,13 @@ import Photo from '../Photo.astro';
   .hero__lead { max-width: 34ch; font-size: var(--step-lead); line-height: 1.35; }
   .hero__actions { display: grid; gap: 1rem; justify-items: start; }
   .hero__actions :global(.open-status) { color: var(--blanco); font-size: var(--step-small); }
-  .hero :global(.hero__photo) { max-height: 70svh; background: rgb(0 0 0 / 0.18); }
+  /* The photo sinks into the red field: multiplied onto it and faded out at its edges. */
+  .hero :global(.hero__photo) {
+    max-height: 70svh;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 60% 45%, #000 45%, transparent 100%);
+    mask-image: radial-gradient(ellipse 75% 70% at 60% 45%, #000 45%, transparent 100%);
+  }
   .hero :global(.photo--pending) { color: var(--blanco); }
 
   .js .hero__line { animation: rise 900ms var(--ease-out) backwards; }

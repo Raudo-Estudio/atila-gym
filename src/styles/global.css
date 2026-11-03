@@ -47,7 +47,7 @@ a { color: inherit; }
 
 h2 { font-size: var(--step-title); }
 h3 { font-size: var(--step-lead); font-weight: 800; letter-spacing: -0.01em; line-height: 1; }
-section[id] { scroll-margin-top: 1rem; }
+section[id] { scroll-margin-top: 5rem; }
 
 .lead { font-size: var(--step-lead); line-height: 1.25; }
 

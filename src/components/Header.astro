@@ -1,9 +1,9 @@
 ---
-import { NAV, SITE } from '../data/site';
-import Button from './Button.astro';
+import { NAV } from '../data/site';
+import Logo from './Logo.astro';
 ---
-<header class="header">
-  <a class="header__brand" href="/">Atila Gym</a>
+<header class="header" data-header>
+  <a class="header__brand" href="/"><Logo class="header__logo" /></a>
   <nav class="header__nav" aria-label="Principal">
     <ul>
       {NAV.map(({ href, label }) => (
@@ -11,34 +11,38 @@ import Button from './Button.astro';
       ))}
     </ul>
   </nav>
-  <span class="header__action"><Button href={SITE.whatsappUrl} variant="ink" external>WhatsApp</Button></span>
 </header>
+
+<script>
+  // Transparent over the red hero, solid once the page moves under it.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const update = () => header?.classList.toggle('is-solid', scrollY > 24);
+  addEventListener('scroll', update, { passive: true });
+  update();
+</script>
 
 <style>
   .header {
-    position: absolute;
+    position: fixed;
     inset: 0 0 auto;
-    z-index: 10;
-    display: grid;
-    grid-template-columns: 1fr auto;
+    z-index: 40;
+    display: flex;
     align-items: center;
-    padding: 1rem var(--margin);
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem var(--margin);
+    transition: background-color 250ms, padding 250ms;
   }
-  .header__brand {
-    font-family: var(--font-display);
-    font-size: var(--step-lead);
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  .header__nav { display: none; }
-  .header__nav ul { display: flex; gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  .header.is-solid { background: var(--carbon); }
+  .header__brand { display: block; color: var(--blanco); }
+  .header :global(.header__logo) { width: 4.25rem; transition: width 250ms var(--ease-out); }
+  .header.is-solid :global(.header__logo) { width: 3.5rem; }
+  .header.is-solid .header__brand { color: var(--rojo); }
+  .header__nav ul { display: flex; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
   .header__nav a { display: inline-block; padding-block: 0.5rem; font-weight: 500; text-decoration: none; }
   .header__nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
   @media (min-width: 48rem) {
-    .header { grid-template-columns: 1fr auto 1fr; }
-    .header__nav { display: block; }
-    .header__action { justify-self: end; }
+    .header__nav ul { gap: 2rem; }
+    .header :global(.header__logo) { width: 5rem; }
   }
 </style>
