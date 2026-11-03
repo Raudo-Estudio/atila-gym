@@ -4,20 +4,19 @@
   --rojo: #d2202a;
   --blanco: #ffffff;
   --metal: #a9aeb6;
-  --brasa: #7d1016;
-  --tarjeta: #15171b;
 
   --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --font-body: 'Barlow', system-ui, sans-serif;
 
   --step-small: 0.875rem;
   --step-body: 1.0625rem;
-  --step-lead: clamp(1.25rem, 0.9rem + 1.2vw, 1.75rem);
+  --step-lead: clamp(1.25rem, 0.95rem + 1.1vw, 2rem);
   --step-title: clamp(2.75rem, 1.6rem + 6vw, 6rem);
-  --step-display: clamp(2.95rem, 0.5rem + 12.4vw, 12rem);
+  --step-display: clamp(4.5rem, 11vw, 11rem);
 
   --margin: clamp(1rem, 3.5vw, 3rem);
-  --section-space: clamp(3.5rem, 6.5vw, 6rem);
+  --section-space: clamp(4.5rem, 10vw, 9rem);
   --max-text: 62ch;
-  --radius: 2px;
+  --radius: 0;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }

@@ -4,14 +4,14 @@ import Button from './Button.astro';
 ---
 <header class="header">
   <a class="header__brand" href="/">Atila Gym</a>
-  <nav aria-label="Principal">
-    <ul class="header__nav">
+  <nav class="header__nav" aria-label="Principal">
+    <ul>
       {NAV.map(({ href, label }) => (
         <li><a href={href}>{label}</a></li>
       ))}
     </ul>
   </nav>
-  <span class="header__action"><Button href={SITE.whatsappUrl} external>WhatsApp</Button></span>
+  <span class="header__action"><Button href={SITE.whatsappUrl} variant="ink" external>WhatsApp</Button></span>
 </header>
 
 <style>
@@ -19,14 +19,11 @@ import Button from './Button.astro';
     position: absolute;
     inset: 0 0 auto;
     z-index: 10;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.25rem 2rem;
-    padding: 1.25rem var(--margin);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 1rem var(--margin);
   }
-  .header__action { display: none; }
   .header__brand {
     font-family: var(--font-display);
     font-size: var(--step-lead);
@@ -35,18 +32,13 @@ import Button from './Button.astro';
     text-decoration: none;
     text-transform: uppercase;
   }
-  .header__nav {
-    display: flex;
-    gap: 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 0.9375rem;
-  }
-  .header__nav a { display: inline-block; padding-block: 0.5rem; text-decoration: none; }
+  .header__nav { display: none; }
+  .header__nav ul { display: flex; gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  .header__nav a { display: inline-block; padding-block: 0.5rem; font-weight: 500; text-decoration: none; }
   .header__nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
   @media (min-width: 48rem) {
-    .header { align-items: center; }
-    .header__action { display: block; }
+    .header { grid-template-columns: 1fr auto 1fr; }
+    .header__nav { display: block; }
+    .header__action { justify-self: end; }
   }
 </style>

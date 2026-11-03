@@ -1,34 +1,59 @@
 ---
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
-import Section from '../Section.astro';
 ---
-<Section id="planes">
-  <div class="split">
-    <div>
-      <h2>Cuotas y planes en Pacheco</h2>
-      <p class="lead">Escribinos y te pasamos la cuota vigente y las formas de pago.</p>
+<section id="planes" class="planes">
+  <h2 class="visually-hidden">Cuotas y planes</h2>
+  <article class="plan plan--cuota" data-reveal>
+    <h3>Cuota Atila</h3>
+    <p class="plan__for">
+      Para entrenar todos los días que quieras. Incluye los salones, los profes en sala y la app Atila Coach.
+    </p>
+    <div class="plan__foot">
+      <p class="plan__price">Por WhatsApp</p>
+      <Button href={SITE.whatsappUrl} variant="ink" external>Consultar la cuota</Button>
     </div>
-    <div class="planes__options">
-      <div class="plan plan--rojo">
-        <h3>Cuota del gym</h3>
-        <p>Incluye salones, profes en sala y la app Atila Coach.</p>
-        <Button href={SITE.whatsappUrl} external>Consultar la cuota</Button>
-      </div>
-      <div class="plan">
-        <h3>Wellhub</h3>
-        <p>Atila Gym Pacheco está disponible en Wellhub.</p>
-        <Button href={SITE.wellhubUrl} variant="quiet" external>Ver en Wellhub</Button>
-      </div>
+  </article>
+  <article class="plan plan--wellhub" data-reveal>
+    <h3>Wellhub</h3>
+    <p class="plan__for">Si tu empresa te da Wellhub, Atila Gym Pacheco está en la lista.</p>
+    <div class="plan__foot">
+      <p class="plan__price">Con tu plan</p>
+      <Button href={SITE.wellhubUrl} external>Ver en Wellhub</Button>
     </div>
-  </div>
-</Section>
+  </article>
+</section>
 
 <style>
-  .planes__options { display: grid; gap: 1rem; }
-  .plan { padding: 2rem 1.5rem; background: var(--tarjeta); }
-  .plan p { margin-block: 0.5rem 1rem; color: var(--metal); }
-  .plan--rojo { background: var(--rojo); }
-  .plan--rojo p { color: var(--blanco); }
-  .plan--rojo :global(.button--primary) { background: var(--carbon); }
+  .planes { display: grid; }
+  .plan {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 1.25rem;
+    min-height: 70svh;
+    padding: 2.5rem var(--margin);
+  }
+  .plan--cuota { background: var(--rojo); }
+  .plan--wellhub { background: var(--plancha); }
+  .plan h3 { font-size: var(--step-title); }
+  .plan__for { max-width: 30ch; font-size: var(--step-body); }
+  .plan__foot { display: grid; align-self: end; gap: 1.5rem; }
+  .plan__price {
+    font-family: var(--font-display);
+    font-size: var(--step-title);
+    font-weight: 800;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .plan__foot :global(.button) { width: 100%; }
+
+  @media (min-width: 60rem) {
+    .planes { grid-template-columns: 5fr 7fr; }
+    .plan { min-height: 90svh; padding: 2.5rem; }
+    .plan--cuota { grid-column: 2; grid-row: 1; padding-right: var(--margin); }
+    .plan--wellhub { grid-column: 1; grid-row: 1; padding-left: var(--margin); }
+    .plan--cuota .plan__price { font-size: var(--step-display); }
+    .plan__foot { grid-template-columns: 1fr auto; align-items: end; }
+    .plan__foot :global(.button) { width: auto; }
+  }
 </style>

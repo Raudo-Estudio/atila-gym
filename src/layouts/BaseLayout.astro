@@ -19,6 +19,7 @@ const { title, description, ogImage } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0f1114" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <SeoHead title={title} description={description} ogImage={ogImage} />
     <LocalBusinessJsonLd />
   </head>
@@ -31,6 +32,22 @@ const { title, description, ogImage } = Astro.props;
     <script>
       import { trackClicks } from '../lib/track';
       trackClicks();
+
+      // Stagger the parts of each block as it enters.
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(({ isIntersecting, target }) => {
+          if (!isIntersecting) return;
+          target.classList.add('is-in');
+          observer.unobserve(target);
+        });
+      }, { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((block) => {
+        [...block.children].forEach((child, index) => (child as HTMLElement).style.setProperty('--i', String(index)));
+        if (reduced) block.classList.add('is-in');
+        else observer.observe(block);
+      });
+
     </script>
   </body>
 </html>

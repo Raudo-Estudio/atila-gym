@@ -1,6 +1,5 @@
 ---
 import { FAQ } from '../../data/faq';
-import Section from '../Section.astro';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -12,24 +11,35 @@ const jsonLd = {
   })),
 };
 ---
-<Section id="preguntas">
-  <div class="split">
-    <div><h2>Preguntas frecuentes</h2></div>
-    <div class="faq">
-      {FAQ.map(({ q, a }) => (
-        <details>
-          <summary>{q}</summary>
-          <p>{a}</p>
-        </details>
-      ))}
+<section id="preguntas" class="faq">
+  <h2 class="faq__title">Preguntas</h2>
+  {FAQ.map(({ q, a }) => (
+    <div class="faq__band" data-reveal>
+      <h3>{q}</h3>
+      <p>{a}</p>
     </div>
-  </div>
-</Section>
+  ))}
+</section>
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <style>
-  .faq { display: grid; gap: 0.5rem; }
-  details { padding-inline: 1.25rem; background: var(--tarjeta); }
-  summary { padding-block: 1rem; font-weight: 500; cursor: pointer; }
-  details p { padding-bottom: 1.25rem; color: var(--metal); }
+  .faq__title {
+    display: flex;
+    align-items: flex-end;
+    min-height: 30svh;
+    padding: 2rem var(--margin);
+    background: var(--rojo);
+    font-size: var(--step-display);
+  }
+  .faq__band { display: grid; gap: 0.75rem; padding: 2rem var(--margin); }
+  .faq__band:nth-of-type(odd) { background: var(--carbon); }
+  .faq__band:nth-of-type(even) { background: var(--plancha); }
+  .faq__band h3 { font-family: var(--font-body); font-weight: 500; letter-spacing: 0; line-height: 1.2; text-transform: none; }
+  .faq__band p { max-width: 52ch; }
+
+  @media (min-width: 60rem) {
+    .faq__title { min-height: 40svh; }
+    .faq__band { grid-template-columns: 5fr 1fr 6fr; padding-block: 3.5rem; }
+    .faq__band p { grid-column: 3; }
+  }
 </style>

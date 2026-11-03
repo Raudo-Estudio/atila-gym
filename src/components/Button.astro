@@ -1,7 +1,7 @@
 ---
 interface Props {
   href: string;
-  variant?: 'primary' | 'quiet';
+  variant?: 'primary' | 'ink' | 'quiet';
   external?: boolean;
 }
 const { href, variant = 'primary', external = false } = Astro.props;
@@ -16,14 +16,19 @@ const { href, variant = 'primary', external = false } = Astro.props;
   .button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     min-height: 3.25rem;
     padding: 0.75rem 1.5rem;
     border-radius: var(--radius);
     font-weight: 500;
     text-decoration: none;
+    transition: transform 160ms var(--ease-out), background-color 160ms, color 160ms;
   }
+  .button:active { transform: scale(0.97); }
   .button--primary { background: var(--rojo); color: var(--blanco); }
   .button--primary:hover { background: var(--blanco); color: var(--carbon); }
-  .button--quiet { padding-inline: 0; text-decoration: underline; text-underline-offset: 0.25em; }
-  .button--quiet:hover { color: var(--metal); }
+  .button--ink { background: var(--carbon); color: var(--blanco); }
+  .button--ink:hover { background: var(--blanco); color: var(--carbon); }
+  .button--quiet { min-height: 2.75rem; padding-inline: 0; text-decoration: underline; text-underline-offset: 0.25em; }
+  .button--quiet:hover { text-decoration-thickness: 3px; }
 </style>

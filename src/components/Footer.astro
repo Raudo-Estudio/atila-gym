@@ -1,25 +1,34 @@
 ---
+import credits from '../../assets/credits.json';
 import { NAV, SITE } from '../data/site';
 ---
 <footer class="footer">
-  <div>
-    <p class="footer__name">{SITE.name}</p>
+  <p class="footer__name" aria-hidden="true">Atila Gym</p>
+  <div class="footer__info">
     <address>
       {SITE.streetAddress}<br />
       {SITE.addressDetail}<br />
       {SITE.locality}, Tigre
     </address>
+    <div>
+      <p>Lunes a viernes de 7 a 23 h</p>
+      <p>Sábados de 10 a 20 h</p>
+      <p>Domingos cerrado</p>
+    </div>
+    <ul>
+      {NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+      <li><a href={SITE.instagramUrl} target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href={`tel:${SITE.phone.replaceAll(/[\s-]/g, '')}`}>{SITE.phoneDisplay}</a></li>
+    </ul>
   </div>
-  <div>
-    <p>Lunes a viernes de 7 a 23 h</p>
-    <p>Sábados de 10 a 20 h</p>
-    <p>Domingos cerrado</p>
-  </div>
-  <ul>
-    {NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
-    <li><a href={SITE.instagramUrl} target="_blank" rel="noopener">Instagram</a></li>
-    <li><a href={`tel:${SITE.phone.replaceAll(/[\s-]/g, '')}`}>{SITE.phoneDisplay}</a></li>
-  </ul>
+  <p class="footer__credits">
+    Foto de Pacheco:{' '}
+    {credits.map((item, index) => (
+      <>
+        <a href={item.page} target="_blank" rel="noopener">{item.title}</a> ({item.license}){index < credits.length - 1 ? '; ' : '.'}
+      </>
+    ))}
+  </p>
 </footer>
 
 <style>
@@ -28,20 +37,24 @@ import { NAV, SITE } from '../data/site';
     gap: 2.5rem;
     padding: 4rem var(--margin) 6rem;
     background: var(--plancha);
-    color: var(--metal);
   }
   .footer__name {
-    margin-bottom: 0.5rem;
-    color: var(--blanco);
+    max-width: none;
     font-family: var(--font-display);
-    font-size: var(--step-lead);
+    font-size: clamp(4.5rem, 16vw, 22rem);
     font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 0.82;
     text-transform: uppercase;
+    white-space: nowrap;
   }
+  .footer__info { display: grid; gap: 2rem; }
   address { font-style: normal; }
   ul { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
-  a:hover { color: var(--blanco); }
+  a:hover { color: var(--rojo); }
+  .footer__credits { color: var(--metal); font-size: var(--step-small); }
   @media (min-width: 48rem) {
-    .footer { grid-template-columns: 2fr 2fr 1fr; padding-bottom: 4rem; }
+    .footer { padding-bottom: 3rem; }
+    .footer__info { grid-template-columns: 2fr 2fr 1fr; }
   }
 </style>
