@@ -12,7 +12,7 @@
   --step-body: 1.0625rem;
   --step-lead: clamp(1.25rem, 0.9rem + 1.2vw, 1.75rem);
   --step-title: clamp(2.75rem, 1.6rem + 6vw, 6rem);
-  --step-display: clamp(3.25rem, 0.5rem + 12.4vw, 12rem);
+  --step-display: clamp(2.95rem, 0.5rem + 12.4vw, 12rem);
 
   --margin: clamp(1rem, 3.5vw, 3rem);
   --section-space: clamp(6rem, 14vw, 11rem);

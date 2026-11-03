@@ -1,0 +1,24 @@
+---
+---
+<p class="open-status" data-open-status>Lunes a viernes de 7 a 23 h, sábados de 10 a 20 h</p>
+
+<script>
+  import { getStatus } from '../lib/hours';
+
+  const status = getStatus(new Date());
+  const text = status.open
+    ? `Abierto ahora, hasta las ${status.closesAt}`
+    : status.opensAt
+      ? `Cerrado ahora. Abre el ${status.opensAt.day} a las ${status.opensAt.time}`
+      : null;
+
+  if (text) {
+    document.querySelectorAll('[data-open-status]').forEach((element) => {
+      element.textContent = text;
+    });
+  }
+</script>
+
+<style>
+  .open-status { color: var(--metal); }
+</style>
