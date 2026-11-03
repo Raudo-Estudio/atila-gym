@@ -1,34 +1,40 @@
 ---
-import PhotoSlot from '../PhotoSlot.astro';
+import { SITE } from '../../data/site';
+import Button from '../Button.astro';
 import Section from '../Section.astro';
+
+const items = [
+  { title: 'Salones por grupo muscular', text: 'Cada espacio está equipado para lo que venís a trabajar, así entrenás sin perder tiempo.' },
+  { title: 'Pesas, máquinas y cardio', text: 'Pesos libres, sala de musculación, funcional, cardio y elongación.' },
+  { title: 'Profes en sala', text: 'Preguntá lo que necesites mientras entrenás. No hace falta reservar.' },
+  { title: 'Vestuarios y duchas', text: 'Con aire acondicionado, calefacción, Wi-Fi y cafetería.' },
+];
 ---
 <Section id="el-gym">
-  <div class="split">
-    <div>
-      <h2>Gimnasio de musculación en Pacheco</h2>
-      <p class="lead">Un salón para cada grupo muscular, así entrás, entrenás y no perdés tiempo cruzando el gym.</p>
+  <div class="section-head">
+    <h2>Gimnasio de musculación en Pacheco</h2>
+    <div class="section-head__side">
+      <p>Más que un lugar para entrenar: una comunidad que te acompaña y te impulsa todos los días.</p>
+      <Button href={SITE.whatsappUrl} external>Vení a conocerlo</Button>
     </div>
-    <ul class="gym__list">
-      <li><h3>Salones por grupo muscular</h3><p>Cada espacio está equipado para lo que venís a trabajar.</p></li>
-      <li><h3>Pesas, máquinas y cardio</h3><p>Pesos libres, sala de musculación, funcional, cardio y elongación.</p></li>
-      <li><h3>Profes en sala</h3><p>Preguntá lo que necesites mientras entrenás. No hace falta reservar.</p></li>
-      <li><h3>Vestuarios y duchas</h3><p>Con aire acondicionado, calefacción, Wi-Fi y cafetería.</p></li>
-    </ul>
   </div>
-  <div class="gym__photos">
-    <PhotoSlot label="Salón de pesos libres" ratio="16 / 9" />
-    <PhotoSlot label="Sala de máquinas" />
-    <PhotoSlot label="Vestuarios" />
-  </div>
+  <ul class="cards">
+    {items.map(({ title, text }, index) => (
+      <li class:list={['card', { 'card--rojo': index === 2 }]}>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </li>
+    ))}
+  </ul>
 </Section>
 
 <style>
-  .gym__list { display: grid; gap: 2rem; margin: 0; padding: 0; list-style: none; }
-  .gym__list h3 { margin-bottom: 0.35rem; }
-  .gym__list p { color: var(--metal); }
-  .gym__photos { display: grid; gap: 1rem; margin-top: 4rem; }
-  @media (min-width: 48rem) {
-    .gym__photos { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
-    .gym__photos > :global(:first-child) { grid-row: span 2; height: 100%; aspect-ratio: auto !important; }
-  }
+  .cards { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; }
+  .card { display: grid; align-content: start; gap: 1rem; padding: 2rem 1.5rem 2.5rem; background: var(--tarjeta); }
+  .card h3 { font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2.1rem); font-weight: 800; line-height: 1; }
+  .card p { color: var(--metal); }
+  .card--rojo { background: var(--rojo); }
+  .card--rojo p { color: var(--blanco); }
+  @media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 72rem) { .cards { grid-template-columns: repeat(4, 1fr); } }
 </style>
