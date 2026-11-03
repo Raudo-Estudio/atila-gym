@@ -30,8 +30,10 @@ const { title, description, ogImage } = Astro.props;
     <Footer />
     <WhatsAppBar />
     <script>
+      import { initTabs } from '../lib/tabs';
       import { trackClicks } from '../lib/track';
       trackClicks();
+      initTabs();
 
       // Stagger the parts of each block as it enters.
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;

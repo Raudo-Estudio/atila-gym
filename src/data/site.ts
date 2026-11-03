@@ -35,7 +35,7 @@ export const SITE = {
   rating: { value: '4,7', count: 723 },
   googleReviewsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJA8cDOYWkvJURzp8mOoxPhUw',
   directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-34.46,-58.6353',
-  mapEmbedUrl: 'https://www.google.com/maps?q=-34.46,-58.6353&z=16&output=embed',
+  mapEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent('Atila Gym, Av. de los Constituyentes 83, General Pacheco')}&z=16&output=embed`,
   wellhubUrl: 'https://wellhub.com/es-ar/search/partners/atila-gym-pacheco/',
 } as const;
 

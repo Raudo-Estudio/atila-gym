@@ -5,48 +5,61 @@ import Photo from '../Photo.astro';
 
 const rooms = [
   {
+    id: 'pesos',
+    tab: 'Pesos libres',
     title: 'Salón de pesos libres',
     text: 'Barras olímpicas, discos y mancuernas, con espacio para entrenar cómodo.',
-    fact: 'Profes en sala, sin reserva',
     photo: 'salón de pesos libres',
   },
   {
+    id: 'maquinas',
+    tab: 'Máquinas',
     title: 'Sala de máquinas',
-    text: 'Máquinas distribuidas por grupo muscular y bien mantenidas, en tres de los cuatro pisos.',
-    fact: 'Remo y ski incluidos',
+    text: 'Máquinas por grupo muscular en tres pisos, con remo y ski.',
     photo: 'sala de máquinas',
+  },
+  {
+    id: 'vestuarios',
+    tab: 'Vestuarios',
+    title: 'Vestuarios y duchas',
+    text: 'Con aire acondicionado y calefacción, para salir directo al trabajo.',
+    photo: 'vestuarios con duchas',
   },
 ];
 ---
-<section id="salones" class="salones">
-  <div class="salones__head" data-reveal>
-    <h2>Salones por grupo muscular</h2>
-    <Button href={SITE.instagramUrl} variant="quiet" external>Ver el gym en Instagram</Button>
+<section id="salones" class="salones" data-tabs>
+  <div class="salones__head">
+    <h2>Salones</h2>
+    <div class="tabs" role="tablist" aria-label="Salones">
+      {rooms.map(({ id, tab }) => (
+        <button type="button" role="tab" id={`tab-${id}`} aria-controls={`panel-${id}`}>{tab}</button>
+      ))}
+    </div>
   </div>
-  <div class="salones__list">
-    {rooms.map(({ title, text, fact, photo }) => (
-      <article class="room" data-reveal>
-        <Photo alt={photo} ratio="3 / 2" />
+  {rooms.map(({ id, title, text, photo }) => (
+    <div class="room" role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`}>
+      <Photo alt={photo} ratio="16 / 9" />
+      <div class="room__body">
         <h3>{title}</h3>
         <p>{text}</p>
-        <p class="room__fact">{fact}</p>
-      </article>
-    ))}
-  </div>
+        <Button href={SITE.instagramUrl} variant="quiet" external>Ver más en Instagram</Button>
+      </div>
+    </div>
+  ))}
 </section>
 
 <style>
   .salones { padding: var(--section-space) var(--margin); background: var(--plancha); }
-  .salones__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 2.5rem; }
-  .salones__list { display: grid; gap: 3rem; }
-  .room { display: grid; gap: 0.75rem; align-content: start; }
-  .room :global(.photo) { margin-bottom: 0.75rem; background: var(--carbon); }
-  .room p { max-width: 44ch; color: var(--metal); }
-  .room .room__fact { color: var(--blanco); font-weight: 500; }
+  .salones__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 1.75rem; }
+  .salones__head .tabs { margin: 0; }
+  .room { display: grid; gap: 1.5rem; }
+  .room + .room { margin-top: 2rem; }
+  .salones.is-tabbed .room + .room { margin-top: 0; }
+  .room :global(.photo) { background: var(--carbon); }
+  .room__body { display: grid; gap: 0.75rem; align-content: end; justify-items: start; }
+  .room__body p { max-width: 36ch; color: var(--metal); }
 
-  @media (min-width: 48rem) {
-    .salones__list { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    /* Offset the second room so the pair does not read as a card row. */
-    .room:nth-child(2) { margin-top: 5rem; }
+  @media (min-width: 60rem) {
+    .room { grid-template-columns: 8fr 4fr; align-items: end; gap: 2.5rem; }
   }
 </style>

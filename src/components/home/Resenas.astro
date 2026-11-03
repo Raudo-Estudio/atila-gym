@@ -83,6 +83,7 @@ import Button from '../Button.astro';
     });
     viewport.addEventListener('pointerleave', (event) => {
       if (event.pointerType === 'mouse') hovering = false;
+      focused = false;
     });
 
     viewport.addEventListener('pointerdown', (event) => {
@@ -102,11 +103,12 @@ import Button from '../Button.astro';
     viewport.addEventListener('pointerup', endDrag);
     viewport.addEventListener('pointercancel', endDrag);
 
-    viewport.addEventListener('focus', () => (focused = true));
     viewport.addEventListener('blur', () => (focused = false));
     viewport.addEventListener('keydown', (event) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       event.preventDefault();
+      // Steering with the keys holds it until focus or the pointer leaves; a click alone never does.
+      focused = true;
       const step = (track.firstElementChild as HTMLElement).offsetWidth;
       offset = wrap(offset + (event.key === 'ArrowRight' ? step : -step));
       paint();

@@ -12,27 +12,44 @@ const jsonLd = {
 };
 ---
 <section id="preguntas" class="faq">
-  <h2 class="faq__title">Preguntas</h2>
-  {FAQ.map(({ q, a }) => (
-    <div class="faq__band" data-reveal>
-      <h3>{q}</h3>
-      <p>{a}</p>
-    </div>
-  ))}
+  <h2>Preguntas</h2>
+  <div class="faq__list">
+    {FAQ.map(({ q, a }) => (
+      <details>
+        <summary>{q}</summary>
+        <p>{a}</p>
+      </details>
+    ))}
+  </div>
 </section>
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <style>
-  .faq { padding-top: var(--section-space); background: var(--carbon); }
-  .faq__title { padding: 0 var(--margin) 2rem; }
-  .faq__band { display: grid; gap: 0.75rem; padding: 2rem var(--margin); }
-  .faq__band { border-top: 1px solid var(--plancha); }
-  .faq__band h3 { font-family: var(--font-body); font-size: var(--step-body); font-weight: 500; letter-spacing: 0; line-height: 1.4; text-transform: none; }
-  .faq__band p { color: var(--metal); }
-  .faq__band p { max-width: 52ch; }
-
+  .faq { display: grid; gap: 2rem; padding: var(--section-space) var(--margin); background: var(--carbon); }
+  details { border-bottom: 1px solid var(--plancha); }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+';
+    flex: none;
+    color: var(--rojo);
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: transform 200ms var(--ease-out);
+  }
+  details[open] summary::after { transform: rotate(45deg); }
+  summary:hover { color: var(--metal); }
+  details p { max-width: 52ch; padding-bottom: 1.25rem; color: var(--metal); }
+  details[open] p { animation: panel-in 300ms var(--ease-out); }
   @media (min-width: 60rem) {
-    .faq__band { grid-template-columns: 5fr 1fr 6fr; padding-block: 1.75rem; }
-    .faq__band p { grid-column: 3; }
+    .faq { grid-template-columns: 5fr 7fr; gap: 4rem; }
   }
 </style>

@@ -4,44 +4,37 @@ import { HOURS, SITE } from '../../data/site';
 const format = (time: string | null) => (time ? Number(time.split(':')[0]) : '');
 const weekday = HOURS[1];
 const saturday = HOURS[6];
-const tel = `tel:${SITE.phone.replaceAll(/[\s-]/g, '')}`;
 ---
 <section id="horarios" class="horarios">
-  <div class="barra" data-reveal>
-    <h2>Horarios y cómo llegar</h2>
-    <p class="barra__status" data-barra-text>
-      Lunes a viernes de {format(weekday.open)} a {format(weekday.close)} h, sábados de {format(saturday.open)} a
-      {format(saturday.close)} h. Domingos cerrado.
-    </p>
-    <div class="barra__track" aria-hidden="true">
-      <span class="barra__disc"></span>
-      <span class="barra__bar"><span class="barra__now" data-barra-now hidden></span></span>
-      <span class="barra__disc"></span>
+  <div class="horarios__info" data-reveal>
+    <h2>Horarios y ubicación</h2>
+    <p class="horarios__status" data-barra-text>Lunes a viernes de 7 a 23 h.</p>
+    <div class="barra" aria-hidden="true">
+      <div class="barra__track">
+        <span class="barra__disc"></span>
+        <span class="barra__bar"><span class="barra__now" data-barra-now hidden></span></span>
+        <span class="barra__disc"></span>
+      </div>
+      <div class="barra__ends">
+        <span data-barra-start>{format(weekday.open)} h</span>
+        <span data-barra-end>{format(weekday.close)} h</span>
+      </div>
     </div>
-    <div class="barra__ends" aria-hidden="true">
-      <span data-barra-start>{format(weekday.open)} h</span>
-      <span data-barra-end>{format(weekday.close)} h</span>
-    </div>
+    <dl class="hours">
+      <div><dt>Lun a vie</dt><dd>{format(weekday.open)} a {format(weekday.close)} h</dd></div>
+      <div><dt>Sábados</dt><dd>{format(saturday.open)} a {format(saturday.close)} h</dd></div>
+      <div><dt>Domingos</dt><dd>Cerrado</dd></div>
+    </dl>
+    <address>{SITE.streetAddress}, {SITE.locality}</address>
+    <a class="horarios__route" href={SITE.directionsUrl} target="_blank" rel="noopener">Cómo llegar</a>
   </div>
-
-  <address class="rows">
-    <p class="row row--name">
-      <span>{SITE.name}</span>
-      <img src="/media/pacheco-calle.webp" width="1200" height="1600" alt="La Av. Hipólito Yrigoyen en Pacheco, con palmeras y carteles de calle" loading="lazy" />
-    </p>
-    <a class="row" href={SITE.directionsUrl} target="_blank" rel="noopener">{SITE.streetAddress}</a>
-    <p class="row">{SITE.locality}, Tigre</p>
-    <p class="row row--hours">
-      <span>Lun a vie {format(weekday.open)}–{format(weekday.close)}</span>
-      <span>Sáb {format(saturday.open)}–{format(saturday.close)}</span>
-    </p>
-    <a class="row" href={tel}>{SITE.phoneDisplay}</a>
-    <a class="row row--hola" href={SITE.whatsappUrl} target="_blank" rel="noopener">
-      <span>Hola</span>
-      <span class="row__arrow" aria-hidden="true">→</span>
-      <span class="visually-hidden">, escribinos por WhatsApp</span>
-    </a>
-  </address>
+  <iframe
+    class="horarios__map"
+    src={SITE.mapEmbedUrl}
+    title="Mapa de Atila Gym en General Pacheco"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
 </section>
 
 <script>
@@ -56,8 +49,8 @@ const tel = `tel:${SITE.phone.replaceAll(/[\s-]/g, '')}`;
 
   if (text) {
     text.textContent = status.open
-      ? `Estamos abiertos hasta las ${status.closesAt}.`
-      : `Ahora estamos cerrados. Abrimos el ${status.opensAt?.day} a las ${status.opensAt?.time}.`;
+      ? `Abierto ahora, hasta las ${status.closesAt}`
+      : `Cerrado. Abre el ${status.opensAt?.day} a las ${status.opensAt?.time}`;
   }
   if (status.today.open) {
     if (start) start.textContent = hour(status.today.open);
@@ -70,76 +63,53 @@ const tel = `tel:${SITE.phone.replaceAll(/[\s-]/g, '')}`;
 </script>
 
 <style>
-  .barra { padding: var(--section-space) var(--margin) 3rem; background: var(--carbon); }
-  .barra__status { margin-block: 1.5rem 2.5rem; font-size: var(--step-lead); line-height: 1.25; }
-  .barra__track { display: flex; align-items: center; height: clamp(2.5rem, 5vw, 4rem); }
-  .barra__disc { flex: none; width: clamp(0.5rem, 1vw, 0.9rem); height: 100%; background: var(--rojo); }
-  .barra__bar { position: relative; flex: 1; height: 0.375rem; background: var(--plancha); }
+  .horarios { display: grid; gap: 2rem; padding: var(--section-space) var(--margin); background: var(--plancha); }
+  .horarios__info { display: grid; gap: 1.25rem; align-content: start; justify-items: start; }
+  .horarios__status { font-size: var(--step-lead); }
+  .barra { justify-self: stretch; }
+  .barra__track { display: flex; align-items: center; height: 2.25rem; }
+  .barra__disc { flex: none; width: 0.5rem; height: 100%; background: var(--rojo); }
+  .barra__bar { position: relative; flex: 1; height: 0.3rem; background: var(--carbon); }
   .barra__now {
     position: absolute;
     top: 50%;
-    width: 0.375rem;
-    height: clamp(2rem, 4vw, 3rem);
+    width: 0.3rem;
+    height: 1.75rem;
     background: var(--blanco);
     transform: translate(-50%, -50%);
   }
   .js .barra__now { animation: slide 1200ms var(--ease-out) 300ms backwards; }
   @keyframes slide { from { left: 0; } }
-  .barra__ends {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    color: var(--metal);
-    font-size: var(--step-small);
-  }
-
-  .rows { display: grid; font-style: normal; }
-  .row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 4rem;
-    margin: 0;
-    max-width: none;
-    padding: 0.75rem var(--margin);
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 6vw, 2.25rem);
-    font-weight: 700;
-    line-height: 1;
+  .barra__ends { display: flex; justify-content: space-between; margin-top: 0.4rem; color: var(--metal); font-size: var(--step-small); }
+  .hours { display: grid; gap: 0.4rem; justify-self: stretch; margin: 0; }
+  .hours div { display: flex; justify-content: space-between; gap: 1rem; }
+  .hours dt { color: var(--metal); }
+  .hours dd { margin: 0; font-weight: 500; }
+  address { color: var(--metal); font-style: normal; }
+  .horarios__route {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    background: var(--blanco);
+    color: var(--carbon);
+    font-weight: 500;
     text-decoration: none;
-    text-transform: uppercase;
+    transition: background-color 160ms, color 160ms;
   }
-  .row { background: var(--carbon); border-top: 1px solid var(--plancha); }
-  a.row { transition: color 160ms, padding-left 300ms var(--ease-out); }
-  a.row:hover { padding-left: calc(var(--margin) + 1rem); color: var(--rojo); }
-  .row--name img {
-    flex: none;
-    align-self: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-    object-fit: cover;
+  .horarios__route:hover { background: var(--rojo); color: var(--blanco); }
+  .horarios__map {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 0;
+    background: var(--carbon);
+    /* Dark map that matches the page; hue-rotate restores the pin colours after the invert. */
+    filter: invert(0.9) hue-rotate(180deg) saturate(0.6);
   }
-  .row--hours { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 0.25rem; }
-  .row--hola { justify-content: flex-start; background: var(--blanco) !important; color: var(--carbon); }
-  .row--hola:hover { color: var(--rojo) !important; }
-  .row__arrow {
-    display: grid;
-    place-items: center;
-    width: 0.9em;
-    height: 0.9em;
-    border-radius: 50%;
-    background: var(--rojo);
-    color: var(--blanco);
-    font-family: var(--font-body);
-    font-size: 0.8em;
-    transition: transform 200ms var(--ease-out);
-  }
-  .row--hola:hover .row__arrow { transform: translateX(0.2em); }
 
   @media (min-width: 60rem) {
-    .row { min-height: 5.5rem; font-size: var(--step-title); }
-    .row--hours { flex-direction: row; justify-content: flex-start; align-items: flex-end; gap: 0.6em; }
+    .horarios { grid-template-columns: 4fr 8fr; align-items: stretch; gap: 3rem; }
+    .horarios__map { aspect-ratio: auto; min-height: 26rem; height: 100%; }
   }
 </style>
