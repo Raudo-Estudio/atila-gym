@@ -1,0 +1,34 @@
+---
+import { FAQ } from '../../data/faq';
+import Section from '../Section.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+<Section id="preguntas">
+  <div class="split">
+    <div><h2>Preguntas frecuentes</h2></div>
+    <div class="faq">
+      {FAQ.map(({ q, a }) => (
+        <details>
+          <summary>{q}</summary>
+          <p>{a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</Section>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  details { border-bottom: 1px solid var(--plancha); }
+  summary { padding-block: 1rem; font-weight: 500; cursor: pointer; }
+  details p { padding-bottom: 1.25rem; color: var(--metal); }
+</style>
