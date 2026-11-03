@@ -1,0 +1,29 @@
+---
+import { HOURS, SITE } from '../data/site';
+
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'ExerciseGym',
+  name: SITE.name,
+  url: Astro.site?.href,
+  telephone: SITE.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.streetAddress,
+    addressLocality: SITE.locality,
+    addressRegion: SITE.region,
+    postalCode: SITE.postalCode,
+    addressCountry: SITE.country,
+  },
+  geo: { '@type': 'GeoCoordinates', ...SITE.geo },
+  openingHoursSpecification: HOURS.flatMap((hours, index) =>
+    hours.open
+      ? [{ '@type': 'OpeningHoursSpecification', dayOfWeek: dayNames[index], opens: hours.open, closes: hours.close }]
+      : [],
+  ),
+  sameAs: [SITE.instagramUrl, SITE.facebookUrl],
+};
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />

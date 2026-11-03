@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+import LocalBusinessJsonLd from '../components/LocalBusinessJsonLd.astro';
+import SeoHead from '../components/SeoHead.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+const { title, description, ogImage } = Astro.props;
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f1114" />
+    <SeoHead title={title} description={description} ogImage={ogImage} />
+    <LocalBusinessJsonLd />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <main id="contenido"><slot /></main>
+  </body>
+</html>
