@@ -2,34 +2,26 @@
 import { REVIEWS } from '../../data/reviews';
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
-
-const facts = [`${SITE.rating.value} en Google`, `${SITE.rating.count} reseñas`, '4 pisos', 'De 7 a 23 h'];
 ---
 <section id="resenas" class="resenas">
-  <div class="resenas__band" aria-hidden="true">
-    <div class="resenas__track">
-      {[0, 1].map(() => (
-        <p>{facts.map((item) => <span>{item}</span>)}</p>
-      ))}
-    </div>
+  <div class="resenas__head" data-reveal>
+    <h2>Lo que dicen los socios</h2>
+    <p>{SITE.rating.value} sobre 5 en {SITE.rating.count} reseñas de Google.</p>
+    <Button href={SITE.googleReviewsUrl} variant="quiet" external>Ver todas en Google</Button>
   </div>
 
-  <div class="resenas__body">
-    <div class="resenas__head" data-reveal>
-      <h2>Lo que dicen los socios</h2>
-      <p class="lead">{SITE.rating.value} sobre 5 en {SITE.rating.count} reseñas de Google.</p>
-      <div class="resenas__controls">
-        <button type="button" class="arrow" data-slide="-1" aria-label="Reseña anterior">‹</button>
-        <button type="button" class="arrow" data-slide="1" aria-label="Reseña siguiente">›</button>
-        <Button href={SITE.googleReviewsUrl} variant="quiet" external>Ver todas en Google</Button>
-      </div>
-    </div>
-
-    <ul class="slider" data-slider tabindex="0" aria-label="Reseñas de socios en Google">
+  <div
+    class="carousel"
+    data-carousel
+    tabindex="0"
+    role="region"
+    aria-label="Reseñas de socios en Google. Usá las flechas para moverte."
+  >
+    <ul class="carousel__track" data-track>
       {REVIEWS.map(({ author, text }) => (
-        <li class="slide">
+        <li class="review">
           <blockquote>{text}</blockquote>
-          <p class="slide__author">{author}</p>
+          <p class="review__author">{author}</p>
         </li>
       ))}
     </ul>
@@ -37,102 +29,127 @@ const facts = [`${SITE.rating.value} en Google`, `${SITE.rating.count} reseñas`
 </section>
 
 <script>
-  const slider = document.querySelector<HTMLElement>('[data-slider]');
-  document.querySelectorAll<HTMLButtonElement>('[data-slide]').forEach((button) => {
-    button.addEventListener('click', () => {
-      if (!slider) return;
-      const step = (slider.firstElementChild as HTMLElement).offsetWidth + 16;
-      slider.scrollBy({ left: Number(button.dataset.slide) * step, behavior: 'smooth' });
+  const viewport = document.querySelector<HTMLElement>('[data-carousel]');
+  const track = viewport?.querySelector<HTMLElement>('[data-track]');
+
+  if (viewport && track) {
+    // Copies of the cards make the loop seamless; they are hidden from assistive tech.
+    const originals = [...track.children] as HTMLElement[];
+    const addCopy = () =>
+      originals.forEach((card) => {
+        const copy = card.cloneNode(true) as HTMLElement;
+        copy.setAttribute('aria-hidden', 'true');
+        copy.inert = true;
+        track.append(copy);
+      });
+    viewport.classList.add('is-live');
+    addCopy();
+    // One loop is the distance from a card to its first copy.
+    const measure = () => (track.children[originals.length] as HTMLElement).offsetLeft - originals[0].offsetLeft;
+    while (track.scrollWidth < measure() + viewport.clientWidth) addCopy();
+
+    const speed = 40; // px per second
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let offset = 0;
+    let loop = measure();
+    let hovering = false;
+    let focused = false;
+    let drag: { x: number; offset: number } | null = null;
+    let last = performance.now();
+
+    const wrap = (value: number) => ((value % loop) + loop) % loop;
+    const paint = () => (track.style.transform = `translate3d(${-offset}px, 0, 0)`);
+
+    const tick = (now: number) => {
+      const seconds = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      if (!reduced && !hovering && !focused && !drag) {
+        offset = wrap(offset + speed * seconds);
+        paint();
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    new ResizeObserver(() => {
+      loop = measure();
+      offset = wrap(offset);
+      paint();
+    }).observe(track);
+
+    // Hover stops it where it is; leaving resumes from that same spot.
+    viewport.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') hovering = true;
     });
-  });
+    viewport.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse') hovering = false;
+    });
+
+    viewport.addEventListener('pointerdown', (event) => {
+      drag = { x: event.clientX, offset };
+      viewport.setPointerCapture(event.pointerId);
+      viewport.classList.add('is-dragging');
+    });
+    viewport.addEventListener('pointermove', (event) => {
+      if (!drag) return;
+      offset = wrap(drag.offset - (event.clientX - drag.x));
+      paint();
+    });
+    const endDrag = () => {
+      drag = null;
+      viewport.classList.remove('is-dragging');
+    };
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+
+    viewport.addEventListener('focus', () => (focused = true));
+    viewport.addEventListener('blur', () => (focused = false));
+    viewport.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const step = (track.firstElementChild as HTMLElement).offsetWidth;
+      offset = wrap(offset + (event.key === 'ArrowRight' ? step : -step));
+      paint();
+    });
+  }
 </script>
 
 <style>
-  .resenas__band {
+  .resenas { padding-block: var(--section-space); background: var(--plancha); }
+  .resenas__head {
     display: flex;
-    align-items: center;
-    min-height: 22svh;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 2rem;
+    margin-bottom: 2.5rem;
+    padding-inline: var(--margin);
+  }
+  .resenas__head p { color: var(--metal); }
+  .resenas__head :global(.button) { margin-left: auto; }
+
+  /* Without the script it is a plain scrolling row. */
+  .carousel { overflow-x: auto; padding-inline: var(--margin); }
+  .carousel.is-live {
     overflow: hidden;
-    background: var(--blanco);
-    color: var(--carbon);
+    padding-inline: 0;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
   }
-  .resenas__track { display: flex; width: max-content; animation: run 40s linear infinite; }
-  .resenas__track p {
-    display: flex;
-    max-width: none;
-    font-family: var(--font-display);
-    font-size: var(--step-display);
-    font-weight: 800;
-    line-height: 1;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .resenas__track span::after {
-    content: '';
-    display: inline-block;
-    width: 0.22em;
-    height: 0.22em;
-    margin: 0 0.35em 0.12em;
-    border-radius: 50%;
-    background: var(--rojo);
-    vertical-align: middle;
-  }
+  .carousel.is-dragging { cursor: grabbing; }
+  .carousel:focus-visible { outline-offset: -3px; }
+  .carousel__track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0; list-style: none; }
+  .is-live .carousel__track { will-change: transform; }
 
-  .resenas__body { display: grid; gap: 3rem; padding: var(--section-space) var(--margin); }
-  .resenas__head { display: grid; gap: 1.25rem; align-content: start; }
-  .resenas__controls { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; }
-  .arrow {
-    display: grid;
-    place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
-    border: 0;
-    border-radius: 50%;
-    background: var(--plancha);
-    color: var(--blanco);
-    font-size: 1.75rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: background-color 160ms, transform 160ms var(--ease-out);
-  }
-  .arrow:hover { background: var(--rojo); }
-  .arrow:active { transform: scale(0.92); }
-  .resenas__controls :global(.button) { margin-left: 0.75rem; }
-
-  .slider {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 85%;
-    gap: 1rem;
-    margin: 0 calc(-1 * var(--margin));
-    padding: 0 var(--margin) 1rem;
-    overflow-x: auto;
-    list-style: none;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--margin);
-    scrollbar-width: none;
-  }
-  .slider::-webkit-scrollbar { display: none; }
-  .slide {
+  .review {
     display: grid;
     grid-template-rows: 1fr auto;
     gap: 1.5rem;
-    min-height: 20rem;
-    padding: 2rem;
-    background: var(--plancha);
-    scroll-snap-align: start;
+    width: min(80vw, 24rem);
+    min-height: 13rem;
+    padding: 1.75rem;
+    background: var(--carbon);
   }
-  .slide:nth-child(3n + 1) { background: var(--rojo); }
-  blockquote { margin: 0; font-size: var(--step-lead); line-height: 1.25; }
-  .slide__author { font-weight: 500; }
-
-  @keyframes run { to { transform: translateX(-50%); } }
-  @media (min-width: 60rem) {
-    .resenas__band { min-height: 34svh; }
-    .resenas__body { grid-template-columns: 4fr 8fr; align-items: start; gap: 4rem; }
-    .slider { grid-auto-columns: calc((100% - 1rem) / 2); margin: 0 calc(-1 * var(--margin)) 0 0; padding-left: 0; scroll-padding-inline: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .resenas__track { animation: none; }
-  }
+  blockquote { margin: 0; line-height: 1.5; }
+  .review__author { color: var(--metal); font-size: var(--step-small); }
 </style>

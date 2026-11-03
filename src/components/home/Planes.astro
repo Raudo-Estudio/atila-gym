@@ -30,29 +30,28 @@ import Button from '../Button.astro';
     display: grid;
     grid-template-rows: auto auto 1fr;
     gap: 1.25rem;
-    min-height: 70svh;
     padding: 2.5rem var(--margin);
   }
   .plan--cuota { background: var(--rojo); }
   .plan--wellhub { background: var(--plancha); }
+  .plan--cuota :global(.button--ink:hover) { background: var(--blanco); }
   .plan h3 { font-size: var(--step-title); }
   .plan__for { max-width: 30ch; font-size: var(--step-body); }
   .plan__foot { display: grid; align-self: end; gap: 1.5rem; }
   .plan__price {
     font-family: var(--font-display);
-    font-size: var(--step-title);
+    font-size: var(--step-lead);
     font-weight: 800;
-    line-height: 0.9;
+    line-height: 1;
     text-transform: uppercase;
   }
   .plan__foot :global(.button) { width: 100%; }
 
   @media (min-width: 60rem) {
     .planes { grid-template-columns: 5fr 7fr; }
-    .plan { min-height: 90svh; padding: 2.5rem; }
+    .plan { min-height: 26rem; padding: 3rem; }
     .plan--cuota { grid-column: 2; grid-row: 1; padding-right: var(--margin); }
     .plan--wellhub { grid-column: 1; grid-row: 1; padding-left: var(--margin); }
-    .plan--cuota .plan__price { font-size: var(--step-display); }
     .plan__foot { grid-template-columns: 1fr auto; align-items: end; }
     .plan__foot :global(.button) { width: auto; }
   }

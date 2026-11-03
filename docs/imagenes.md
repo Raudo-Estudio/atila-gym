@@ -1,78 +1,58 @@
 # Imágenes para la web de Atila Gym
 
-Tratamiento único para todo: blanco y negro con alto contraste, flash duro, grano de película. El rojo lo pone la página (fondos y tipografía), no la foto. Así lo generado y lo fotografiado en el gym quedan del mismo lado.
+La página tiene 4 espacios de imagen. Mientras no hay archivo, cada uno muestra "Foto pendiente". Para completarlos, dejá los archivos en `public/media/` con estos nombres; yo los conecto y los optimizo.
 
-Regla de honestidad: lo generado es atmósfera (manos, hierro, tiza, un cuerpo sin cara). Nunca se presenta como un salón, un profe o un socio de Atila. Los salones, la fachada y la app van con fotos reales.
+| Archivo | Dónde va | Formato | Ideal |
+| --- | --- | --- | --- |
+| `portada.jpg` | Portada, a la derecha del título | 4:5 vertical | Foto real del gym o imagen generada |
+| `salon-pesos.jpg` | Salones: pesos libres | 3:2 horizontal | Foto real |
+| `sala-maquinas.jpg` | Salones: sala de máquinas | 3:2 horizontal | Foto real |
+| `vestuarios.jpg` | Qué incluye la cuota | 4:5 vertical | Foto real |
 
-## 1. Fotos reales (las saca el gym o vos con el celular)
+Tratamiento común: color natural, tonos fríos y oscuros, un toque de rojo en el lugar (discos, tapizados, luces), luz suave de salón, sin filtros fuertes. La página ya es roja, negra y gris; las fotos tienen que acompañar, no competir.
 
-| Uso en la página | Qué fotografiar | Formato |
-| --- | --- | --- |
-| Salones, imagen a pantalla completa | Salón de pesos libres, plano abierto, sin gente o de espaldas | 16:9 horizontal |
-| Salones, imagen a pantalla completa | Sala de máquinas, plano abierto | 16:9 horizontal |
-| Salones, imagen a pantalla completa | Vestuarios y duchas | 16:9 horizontal |
-| Tarjeta de cada salón | Un detalle de cada uno (rack, máquina, ducha) | 3:2 |
-| Dirección | Fachada sobre Av. de los Constituyentes 83, de noche con el cartel prendido | 4:5 vertical |
-| Planes | Captura real de la app Atila Coach | Captura del celular |
+Regla de honestidad: los salones y los vestuarios van con fotos reales de Atila, porque son lo que el socio va a encontrar. Lo generado sirve para la portada o detalles (mancuernas, discos, manos), nunca presentado como un salón de Atila.
 
-Consejos: luz del salón prendida, sin gente identificable salvo con permiso, celular horizontal a la altura del pecho, modo foto normal (no gran angular extremo). Después se pasan a blanco y negro todas juntas.
+## Cómo sacar las fotos reales
 
-## 2. Imágenes generadas (Gemini)
+- Luces del salón prendidas, horario con poca gente o de espaldas. Nadie identificable sin permiso.
+- Celular horizontal para los salones, a la altura del pecho, lente normal (1x), sin gran angular.
+- Ordenar el lugar antes: discos en su lugar, mancuernas en el rack.
+- Una toma general por salón y, si se puede, un detalle (rack, máquina, ducha).
+- Exportar en JPG a 2400 px por el lado largo.
 
-Escribilas en inglés. Pedí siempre la relación de aspecto indicada.
+## Prompts para Gemini
 
-### Portada, foto que sube debajo del titular (3:4 vertical)
+Escribilos en inglés y pedí la relación de aspecto indicada.
 
-```text
-Black and white documentary photograph, vertical 3:4. A strong anonymous athlete at the top of a heavy deadlift in a small, worn neighbourhood gym in Buenos Aires. Framed from the chin down to mid-thigh, face out of frame. Chalked hands gripping a knurled steel barbell, veins and tension in the forearms, plain dark t-shirt with no logos. Harsh direct on-camera flash, deep black background falling off into darkness, visible film grain, high contrast, slight motion blur on the plates. Gritty, honest, unpolished. No text, no logos, no brand names, no mirrors, no neon.
-```
-
-### Banda de manos con tiza (16:9 horizontal)
+### Portada (4:5 vertical)
 
 ```text
-Black and white macro photograph, horizontal 16:9. Two hands clapping magnesium chalk, a burst of white chalk dust frozen in the air against a pure black background. Harsh side flash, crisp detail on skin texture and chalk particles, heavy film grain, high contrast. No jewellery, no tattoos, no text.
+Editorial photograph, vertical 4:5. A modern, premium strength gym at dusk: rows of black rubber plates and chrome dumbbells on a rack in the foreground, sharp focus, the rest of the room soft in the background with dark grey walls, matte black flooring and a few warm overhead lights. One accent of deep red on the plates and bench upholstery. Calm, clean, uncluttered, no people. Natural colour, cool shadows, subtle contrast, shot on a 50mm lens at f/2.8. No text, no logos, no brand names, no mirrors facing the camera.
 ```
 
-### Detalle de la barra (16:9 horizontal)
+### Detalle de mancuernas (3:2 horizontal, alternativa para un salón mientras llega la foto real)
 
 ```text
-Black and white extreme close-up photograph, horizontal 16:9. The knurled grip of a worn Olympic steel barbell resting on a rack, chalk caught in the knurling, a cast iron plate edge out of focus behind it. Hard directional light from the left, deep blacks, film grain, high contrast. Old, used equipment, scratches and wear. No text, no brand markings.
+Photograph, horizontal 3:2. Close-up of a long rack of hexagonal black rubber dumbbells with knurled chrome handles in a modern gym, receding into soft focus, red accent on the numbers' backing plates without readable digits. Soft top light, dark charcoal background, clean and premium, natural colour. No people, no text, no logos.
 ```
 
-### Discos de hierro (1:1 cuadrado)
+### Detalle de máquina (3:2 horizontal, alternativa para la sala de máquinas)
 
 ```text
-Black and white photograph, square 1:1. A stack of old cast iron weight plates on a rubber gym floor, shot from slightly above, chipped paint and rust on the edges, chalk handprints on the top plate. Harsh flash, deep shadows, film grain, high contrast. Plates have no visible numbers or brand names.
+Photograph, horizontal 3:2. Side view of a modern selectorized strength machine: black steel frame, a stack of matte black weight plates with a chrome pin, red upholstered seat, in a clean gym with dark grey walls. Soft overhead light, shallow depth of field, premium and minimal, natural colour. No people, no text, no logos.
 ```
 
-### Retrato de espalda (3:4 vertical, para la sección de la app o el cierre)
+### Manos con tiza (4:5 vertical, alternativa para la cuota)
 
 ```text
-Black and white documentary photograph, vertical 3:4. A person seen from behind, sitting on a flat weight bench between sets, towel over the shoulder, looking down at a phone in their hand (screen not visible). Small neighbourhood gym, racks soft in the background. Harsh flash, dark falloff, film grain, high contrast, candid and quiet. Face not visible. No text, no logos.
+Photograph, vertical 4:5. Close-up of chalked hands gripping a knurled steel barbell, a little chalk dust in the air, dark charcoal background, soft side light, natural skin tones, red bumper plate edge out of focus behind. Clean, modern, premium. No jewellery, no tattoos, no text.
 ```
 
-## 3. Videos (Luma Dream Machine)
+## Video opcional para la portada (Luma Dream Machine)
 
-Conviene generarlos desde la imagen fija de Gemini (Image to Video) para que mantengan el tratamiento. Duración de 5 s, opción Loop activada y cámara quieta: la web los muestra mudos y en loop.
-
-### Portada: el levantamiento (desde la foto de portada)
+Si más adelante queremos un loop mudo en la portada, conviene hacerlo desde la imagen de Gemini (Image to Video) con el Loop activado:
 
 ```text
-Static camera, no camera movement. The athlete slowly locks out the deadlift and holds at the top, the barbell trembles slightly, a little chalk dust falls from the hands. Subtle breathing motion in the chest. Black and white, harsh flash look, film grain, high contrast. Seamless loop, 5 seconds.
+Static camera with a very slow push-in. Soft light shifts across the rack of plates and dumbbells, faint dust in the air catches the light. Calm, premium, natural colour. Seamless loop, 5 seconds. No people, no text.
 ```
-
-### Banda: la tiza (desde la foto de manos con tiza)
-
-```text
-Static camera. Slow motion: the hands clap once and a cloud of white chalk dust bursts outward and drifts slowly through the dark, then settles. Black and white, harsh side light, film grain, pure black background. Seamless loop, 5 seconds.
-```
-
-### Alternativa sin imagen de partida (Text to Video)
-
-```text
-Macro shot, black and white, harsh flash, film grain. Chalked hands slide a cast iron weight plate onto the sleeve of a steel barbell, the plate clanks into place and wobbles to a stop. Static camera, shallow depth of field, dark gym background. Seamless loop, 5 seconds. No text, no logos.
-```
-
-## Entrega
-
-Exportá las fotos en JPG de 2400 px por el lado largo y los videos en MP4 1080p. Dejalos en `public/media/` con nombres simples (`portada.jpg`, `portada.mp4`, `salon-pesos.jpg`, etc.). Yo después los paso a AVIF/WebP y armo los posters de los videos.

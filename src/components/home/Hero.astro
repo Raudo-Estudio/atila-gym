@@ -1,81 +1,51 @@
 ---
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
-import Model3D from '../Model3D.astro';
 import OpenStatus from '../OpenStatus.astro';
+import Photo from '../Photo.astro';
 ---
 <div class="hero">
-  <h1 class="hero__title">
-    <span class="hero__mask"><span class="hero__line">Atila</span></span>
-    <span class="hero__mask"><span class="hero__line">Gym</span></span>
-    <span class="visually-hidden">, gimnasio en General Pacheco</span>
-  </h1>
-
-  <Model3D kind="dumbbell" label="Mancuerna con discos rojos girando en 3D" class="hero__model" />
-
-  <p class="hero__lead">
-    Gimnasio de musculación en General Pacheco. Cuatro pisos, máquinas por grupo muscular y profes en sala.
-  </p>
-  <div class="hero__fact">
-    <OpenStatus />
-    <Button href={SITE.whatsappUrl} variant="ink" external>Escribinos por WhatsApp</Button>
+  <div class="hero__copy">
+    <h1 class="hero__title">
+      <span class="hero__mask"><span class="hero__line">Atila Gym</span></span>
+      <span class="visually-hidden">, gimnasio en General Pacheco</span>
+    </h1>
+    <p class="hero__lead">
+      Gimnasio de musculación en General Pacheco. Cuatro pisos, máquinas por grupo muscular y profes en sala.
+    </p>
+    <div class="hero__actions">
+      <Button href={SITE.whatsappUrl} variant="ink" external>Escribinos por WhatsApp</Button>
+      <OpenStatus />
+    </div>
   </div>
+  <Photo class="hero__photo" alt="sala de musculación de Atila Gym" ratio="4 / 5" eager />
 </div>
 
 <style>
   .hero {
-    position: relative;
     display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    padding: 6rem var(--margin) 0;
-    overflow: hidden;
+    gap: 2.5rem;
+    padding: 7rem var(--margin) var(--section-space);
     background: var(--rojo);
   }
-  .hero__title {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    justify-items: center;
-    font-size: clamp(4.5rem, 21vw, 11rem);
-    letter-spacing: -0.02em;
-    line-height: 0.86;
-  }
+  .hero__copy { display: grid; align-content: center; gap: 1.5rem; justify-items: start; }
+  .hero__title { font-size: var(--step-display); letter-spacing: -0.02em; line-height: 0.9; }
   .hero__mask { display: block; overflow: hidden; padding-top: 0.04em; }
   .hero__line { display: block; }
-  :global(.hero__model) {
-    z-index: 1;
-    width: calc(100% + 2 * var(--margin));
-    height: 22rem;
-    margin-top: -3rem;
-    cursor: grab;
-  }
-  .hero__lead,
-  .hero__fact { position: relative; z-index: 2; justify-self: stretch; padding-block: 2rem; }
-  .hero__lead { order: 3; max-width: 30ch; padding-bottom: 0; font-size: var(--step-body); }
-  .hero__fact { order: 4; display: grid; gap: 1rem; justify-items: start; padding-bottom: 3rem; }
-  .hero__fact :global(.open-status) { color: var(--blanco); font-weight: 500; }
+  .hero__lead { max-width: 34ch; font-size: var(--step-lead); line-height: 1.35; }
+  .hero__actions { display: grid; gap: 1rem; justify-items: start; }
+  .hero__actions :global(.open-status) { color: var(--blanco); font-size: var(--step-small); }
+  .hero :global(.hero__photo) { max-height: 70svh; background: rgb(0 0 0 / 0.18); }
+  .hero :global(.photo--pending) { color: var(--blanco); }
 
   .js .hero__line { animation: rise 900ms var(--ease-out) backwards; }
-  .js .hero__mask + .hero__mask .hero__line { animation-delay: 110ms; }
   .js .hero__lead,
-  .js .hero__fact { animation: fade 600ms ease-out 700ms backwards; }
+  .js .hero__actions { animation: fade 600ms ease-out 500ms backwards; }
 
   @keyframes rise { from { transform: translateY(105%); } }
   @keyframes fade { from { opacity: 0; transform: translateY(12px); } }
 
   @media (min-width: 60rem) {
-    .hero {
-      grid-template-columns: 1fr 46vw 1fr;
-      grid-template-rows: auto minmax(0, 1fr);
-      align-items: end;
-      height: 100svh;
-      min-height: 44rem;
-      padding-top: 5rem;
-    }
-    .hero__title { grid-column: 1 / -1; align-self: start; font-size: 16vw; }
-    :global(.hero__model) { grid-column: 1 / -1; grid-row: 2; align-self: stretch; width: 100%; height: auto; min-height: 0; margin-top: -4vw; }
-    .hero__lead { order: 0; grid-column: 1; grid-row: 2; justify-self: start; max-width: 280px; padding-block: 0 2rem; }
-    .hero__fact { order: 0; grid-column: 3; grid-row: 2; justify-self: end; justify-items: end; padding-block: 0 2rem; text-align: right; }
+    .hero { grid-template-columns: 7fr 5fr; align-items: center; gap: 4rem; min-height: 88svh; }
   }
 </style>

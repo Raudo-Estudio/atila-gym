@@ -23,23 +23,16 @@ const jsonLd = {
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <style>
-  .faq__title {
-    display: flex;
-    align-items: flex-end;
-    min-height: 30svh;
-    padding: 2rem var(--margin);
-    background: var(--rojo);
-    font-size: var(--step-display);
-  }
+  .faq { padding-top: var(--section-space); background: var(--carbon); }
+  .faq__title { padding: 0 var(--margin) 2rem; }
   .faq__band { display: grid; gap: 0.75rem; padding: 2rem var(--margin); }
-  .faq__band:nth-of-type(odd) { background: var(--carbon); }
-  .faq__band:nth-of-type(even) { background: var(--plancha); }
-  .faq__band h3 { font-family: var(--font-body); font-weight: 500; letter-spacing: 0; line-height: 1.2; text-transform: none; }
+  .faq__band { border-top: 1px solid var(--plancha); }
+  .faq__band h3 { font-family: var(--font-body); font-size: var(--step-body); font-weight: 500; letter-spacing: 0; line-height: 1.4; text-transform: none; }
+  .faq__band p { color: var(--metal); }
   .faq__band p { max-width: 52ch; }
 
   @media (min-width: 60rem) {
-    .faq__title { min-height: 40svh; }
-    .faq__band { grid-template-columns: 5fr 1fr 6fr; padding-block: 3.5rem; }
+    .faq__band { grid-template-columns: 5fr 1fr 6fr; padding-block: 1.75rem; }
     .faq__band p { grid-column: 3; }
   }
 </style>

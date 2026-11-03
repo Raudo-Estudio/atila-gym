@@ -1,0 +1,39 @@
+---
+interface Props {
+  /** Path under public/, e.g. /media/salon-pesos.webp. Without it the slot says which photo goes here. */
+  src?: string;
+  alt: string;
+  ratio?: string;
+  width?: number;
+  height?: number;
+  eager?: boolean;
+  class?: string;
+}
+const { src, alt, ratio = '4 / 5', width = 1200, height = 1500, eager = false, class: className } = Astro.props;
+---
+{src ? (
+  <img
+    class:list={['photo', className]}
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    style={`aspect-ratio: ${ratio}`}
+  />
+) : (
+  <div class:list={['photo', 'photo--pending', className]} role="img" aria-label={alt} style={`aspect-ratio: ${ratio}`}>
+    <span>Foto pendiente: {alt}</span>
+  </div>
+)}
+
+<style>
+  .photo { display: block; width: 100%; object-fit: cover; background: var(--plancha); }
+  .photo--pending {
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    color: var(--metal);
+    font-size: var(--step-small);
+  }
+</style>

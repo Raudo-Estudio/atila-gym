@@ -1,72 +1,52 @@
 ---
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
-import Model3D from '../Model3D.astro';
-import type { ModelKind } from '../../lib/gym3d';
+import Photo from '../Photo.astro';
 
-const rooms: { title: string; text: string; fact: string; model: ModelKind; label: string }[] = [
+const rooms = [
   {
     title: 'Salón de pesos libres',
     text: 'Barras olímpicas, discos y mancuernas, con espacio para entrenar cómodo.',
     fact: 'Profes en sala, sin reserva',
-    model: 'barbell',
-    label: 'Barra olímpica cargada con discos, en 3D',
+    photo: 'salón de pesos libres',
   },
   {
     title: 'Sala de máquinas',
     text: 'Máquinas distribuidas por grupo muscular y bien mantenidas, en tres de los cuatro pisos.',
     fact: 'Remo y ski incluidos',
-    model: 'stack',
-    label: 'Columna de placas de una máquina de musculación, en 3D',
+    photo: 'sala de máquinas',
   },
 ];
 ---
 <section id="salones" class="salones">
-  <h2 class="visually-hidden">Salones por grupo muscular</h2>
-  {rooms.map(({ title, text, fact, model, label }, index) => (
-    <article class:list={['room', { 'room--alt': index % 2 === 1 }]} style={`--col: ${index === 0 ? 1 : 4}`}>
-      <Model3D kind={model} label={label} class="room__model" />
-      <div class="room__card" data-reveal>
+  <div class="salones__head" data-reveal>
+    <h2>Salones por grupo muscular</h2>
+    <Button href={SITE.instagramUrl} variant="quiet" external>Ver el gym en Instagram</Button>
+  </div>
+  <div class="salones__list">
+    {rooms.map(({ title, text, fact, photo }) => (
+      <article class="room" data-reveal>
+        <Photo alt={photo} ratio="3 / 2" />
         <h3>{title}</h3>
         <p>{text}</p>
         <p class="room__fact">{fact}</p>
-        <Button href={SITE.instagramUrl} external>Ver el gym en Instagram</Button>
-      </div>
-    </article>
-  ))}
+      </article>
+    ))}
+  </div>
 </section>
 
 <style>
-  .room {
-    position: relative;
-    display: grid;
-    align-items: end;
-    min-height: 100svh;
-    overflow: hidden;
-    background: var(--plancha);
-  }
-  .room--alt { background: var(--carbon); }
-  :global(.room__model) { position: absolute; inset: 0 0 40svh; }
-  .room__card {
-    position: relative;
-    display: grid;
-    align-content: start;
-    gap: 1rem;
-    min-height: 40svh;
-    padding: 1.25rem var(--margin) 1.5rem;
-    background: var(--carbon);
-  }
-  .room--alt .room__card { background: var(--rojo); }
-  .room__card h3 { font-size: var(--step-title); line-height: 0.9; }
-  .room__fact { font-weight: 500; }
-  .room__card :global(.button) { align-self: end; width: 100%; margin-top: auto; }
-  .room--alt .room__card :global(.button--primary) { background: var(--carbon); }
+  .salones { padding: var(--section-space) var(--margin); background: var(--plancha); }
+  .salones__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 2.5rem; }
+  .salones__list { display: grid; gap: 3rem; }
+  .room { display: grid; gap: 0.75rem; align-content: start; }
+  .room :global(.photo) { margin-bottom: 0.75rem; background: var(--carbon); }
+  .room p { max-width: 44ch; color: var(--metal); }
+  .room .room__fact { color: var(--blanco); font-weight: 500; }
 
-  @media (min-width: 60rem) {
-    .room { grid-template-columns: repeat(4, 1fr); align-items: center; padding-inline: var(--margin); }
-    :global(.room__model) { inset: 0 0 0 28%; }
-    .room--alt :global(.room__model) { inset: 0 28% 0 0; }
-    .room__card { z-index: 1; grid-column: var(--col); min-height: 52svh; padding: 2rem; }
-    .room__card h3 { font-size: var(--step-lead); }
+  @media (min-width: 48rem) {
+    .salones__list { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    /* Offset the second room so the pair does not read as a card row. */
+    .room:nth-child(2) { margin-top: 5rem; }
   }
 </style>
