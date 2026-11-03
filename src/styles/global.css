@@ -6,6 +6,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Components set display on their roots; hidden must still win (tab panels). */
+[hidden] { display: none !important; }
+
 html {
   background: var(--carbon);
   color: var(--blanco);
