@@ -28,7 +28,8 @@ const jsonLd = {
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <style>
-  details { border-bottom: 1px solid var(--plancha); }
+  .faq { display: grid; gap: 0.5rem; }
+  details { padding-inline: 1.25rem; background: var(--tarjeta); }
   summary { padding-block: 1rem; font-weight: 500; cursor: pointer; }
   details p { padding-bottom: 1.25rem; color: var(--metal); }
 </style>
