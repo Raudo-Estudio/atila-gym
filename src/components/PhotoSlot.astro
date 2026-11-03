@@ -1,0 +1,22 @@
+---
+interface Props {
+  label: string;
+  ratio?: string;
+}
+const { label, ratio = '4 / 3' } = Astro.props;
+---
+<div class="photo-slot" role="img" aria-label={label} style={`aspect-ratio: ${ratio}`}>
+  <span>Foto pendiente: {label}</span>
+</div>
+
+<style>
+  .photo-slot {
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background: var(--plancha);
+    color: var(--metal);
+    font-size: var(--step-small);
+  }
+</style>

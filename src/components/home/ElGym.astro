@@ -1,0 +1,34 @@
+---
+import PhotoSlot from '../PhotoSlot.astro';
+import Section from '../Section.astro';
+---
+<Section id="el-gym">
+  <div class="split">
+    <div>
+      <h2>Gimnasio de musculación en Pacheco</h2>
+      <p class="lead">Un salón para cada grupo muscular, así entrás, entrenás y no perdés tiempo cruzando el gym.</p>
+    </div>
+    <ul class="gym__list">
+      <li><h3>Salones por grupo muscular</h3><p>Cada espacio está equipado para lo que venís a trabajar.</p></li>
+      <li><h3>Pesas, máquinas y cardio</h3><p>Pesos libres, sala de musculación, funcional, cardio y elongación.</p></li>
+      <li><h3>Profes en sala</h3><p>Preguntá lo que necesites mientras entrenás. No hace falta reservar.</p></li>
+      <li><h3>Vestuarios y duchas</h3><p>Con aire acondicionado, calefacción, Wi-Fi y cafetería.</p></li>
+    </ul>
+  </div>
+  <div class="gym__photos">
+    <PhotoSlot label="Salón de pesos libres" ratio="16 / 9" />
+    <PhotoSlot label="Sala de máquinas" />
+    <PhotoSlot label="Vestuarios" />
+  </div>
+</Section>
+
+<style>
+  .gym__list { display: grid; gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  .gym__list h3 { margin-bottom: 0.35rem; }
+  .gym__list p { color: var(--metal); }
+  .gym__photos { display: grid; gap: 1rem; margin-top: 4rem; }
+  @media (min-width: 48rem) {
+    .gym__photos { grid-template-columns: 2fr 1fr; }
+    .gym__photos > :first-child { grid-row: span 2; aspect-ratio: auto !important; }
+  }
+</style>
