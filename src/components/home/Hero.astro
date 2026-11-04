@@ -99,22 +99,20 @@ import OpenStatus from '../OpenStatus.astro';
   }
   .hero.is-lit .hero__spot { opacity: 1; }
 
-  /* The mark as the hero's object: huge, cut by the right edge, turned on the slant of the A legs (about 18deg). */
+  /* The mark as the hero's object, upright and whole, opposite the name. */
   .hero__mark {
     position: absolute;
-    right: -22%;
-    top: 46%;
+    right: 50%;
+    top: 32%;
     z-index: 0;
-    width: 120vw;
-    translate: 0 -50%;
-    rotate: 18deg;
+    width: 86vw;
+    translate: 50% -50%;
     perspective: 1200px;
     pointer-events: none;
   }
   .hero :global(.hero__logo) {
     width: 100%;
     color: var(--rojo);
-    opacity: 0.85;
     filter: drop-shadow(0 40px 60px rgb(0 0 0 / 0.65)) drop-shadow(0 0 80px rgb(210 32 42 / 0.35));
     transform: rotateX(var(--rx)) rotateY(var(--ry));
     transition: transform 600ms var(--ease-out);
@@ -145,11 +143,9 @@ import OpenStatus from '../OpenStatus.astro';
   .hero__muted { color: var(--metal); font-size: var(--step-small); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-  /* Phone: the mark rides higher and quieter so the name below reads clean. */
+  /* Phone: the mark sits above the name. */
   @media (max-width: 59.99rem) {
-    .hero__mark { top: 30%; }
-    .hero__halo { top: 30%; }
-    .hero :global(.hero__logo) { opacity: 0.6; }
+    .hero__halo { top: 32%; }
   }
 
   .js .hero__line { animation: rise 900ms var(--ease-out) backwards; }
@@ -158,13 +154,13 @@ import OpenStatus from '../OpenStatus.astro';
   .js .hero__foot { animation: fade 600ms ease-out 700ms backwards; }
 
   @keyframes rise { from { transform: translateY(105%); } }
-  @keyframes mark-in { from { opacity: 0; rotate: 8deg; scale: 0.9; filter: blur(10px); } }
+  @keyframes mark-in { from { opacity: 0; scale: 0.9; filter: blur(10px); } }
   @keyframes fade { from { opacity: 0; transform: translateY(12px); } }
 
   @media (min-width: 60rem) {
     .hero { align-items: center; padding-bottom: 4rem; }
-    .hero__mark { right: -14%; top: 52%; width: 72vw; }
-    .hero__halo { left: 76%; }
+    .hero__mark { right: calc(var(--margin) + 2vw); top: 52%; width: 40vw; translate: 0 -50%; }
+    .hero__halo { left: 72%; top: 52%; }
     .hero__copy { justify-self: start; width: 52%; }
     .hero__title { font-size: clamp(6rem, 13vw, 15rem); }
   }
