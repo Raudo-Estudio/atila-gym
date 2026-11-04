@@ -1,10 +1,11 @@
 ---
+import { withBase } from '../lib/url';
 interface Props {
   title: string;
   description: string;
   ogImage?: string;
 }
-const { title, description, ogImage = '/og.jpg' } = Astro.props;
+const { title, description, ogImage = withBase('/og.jpg') } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const image = new URL(ogImage, Astro.site).href;
 ---
@@ -19,4 +20,4 @@ const image = new URL(ogImage, Astro.site).href;
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={image} />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href={withBase('/sitemap-index.xml')} />

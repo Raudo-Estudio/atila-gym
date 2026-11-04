@@ -2,6 +2,7 @@
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
 import Photo from '../Photo.astro';
+import { withBase } from '../../lib/url';
 
 const rooms = [
   {
@@ -10,7 +11,7 @@ const rooms = [
     title: 'Salón de pesos libres',
     text: 'Barras olímpicas, discos y mancuernas, con espacio para entrenar cómodo.',
     photo: 'salón de pesos libres',
-    src: '/media/salon-pesos.webp',
+    src: withBase('/media/salon-pesos.webp'),
     alt: 'Rack de mancuernas de goma negra con mangos cromados',
   },
   {
@@ -19,7 +20,7 @@ const rooms = [
     title: 'Sala de máquinas',
     text: 'Máquinas por grupo muscular en tres pisos, con remo y ski.',
     photo: 'sala de máquinas',
-    src: '/media/sala-maquinas.webp',
+    src: withBase('/media/sala-maquinas.webp'),
     alt: 'Máquina de musculación con asiento rojo y columna de placas',
   },
   {

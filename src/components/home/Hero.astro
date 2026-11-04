@@ -3,6 +3,7 @@ import { SITE } from '../../data/site';
 import Button from '../Button.astro';
 import Logo from '../Logo.astro';
 import OpenStatus from '../OpenStatus.astro';
+import { withBase } from '../../lib/url';
 ---
 <div class="intro" aria-hidden="true"><span class="intro__bar"></span></div>
 <div class="hero" data-hero>
@@ -27,7 +28,7 @@ import OpenStatus from '../OpenStatus.astro';
       </div>
       <div class="hero__actions">
         <Button href={SITE.whatsappUrl} external>Escribinos por WhatsApp</Button>
-        <Button href="/#salones" variant="ghost">Ver los salones</Button>
+        <Button href={withBase('/#salones')} variant="ghost">Ver los salones</Button>
       </div>
     </div>
   </div>

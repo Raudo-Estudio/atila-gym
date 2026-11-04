@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../../lib/url';
 const facts = [
   { value: '4 pisos', label: 'Tres con máquinas por grupo muscular.' },
   { value: '7 a 23 h', label: 'De lunes a viernes. Sábados de 10 a 20 h.' },
@@ -8,7 +9,7 @@ const facts = [
 ---
 <section id="el-gym" class="about">
   <div class="about__photo blend" aria-hidden="true">
-    <img src="/media/portada.webp" width="928" height="1152" alt="" loading="lazy" />
+    <img src={withBase('/media/portada.webp')} width="928" height="1152" alt="" loading="lazy" />
   </div>
   <div class="about__copy" data-reveal>
     <h2>El gym</h2>

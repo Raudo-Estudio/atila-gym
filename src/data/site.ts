@@ -1,3 +1,5 @@
+import { withBase } from '../lib/url';
+
 export interface DayHours {
   day: string;
   open: string | null;
@@ -40,7 +42,7 @@ export const SITE = {
 } as const;
 
 export const NAV = [
-  { href: '/#salones', label: 'Salones' },
-  { href: '/#planes', label: 'Planes' },
-  { href: '/#horarios', label: 'Horarios' },
+  { href: withBase('/#salones'), label: 'Salones' },
+  { href: withBase('/#planes'), label: 'Planes' },
+  { href: withBase('/#horarios'), label: 'Horarios' },
 ] as const;

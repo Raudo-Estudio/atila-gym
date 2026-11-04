@@ -4,6 +4,7 @@ import OpenStatus from '../components/OpenStatus.astro';
 import Section from '../components/Section.astro';
 import { SITE } from '../data/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
 ---
 <BaseLayout
   title="Página no encontrada | Atila Gym"
@@ -16,7 +17,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <OpenStatus />
     <div class="error__actions">
-      <Button href="/">Volver al inicio</Button>
+      <Button href={withBase('/')}>Volver al inicio</Button>
       <Button href={SITE.whatsappUrl} variant="quiet" external>Escribinos por WhatsApp</Button>
     </div>
   </Section>

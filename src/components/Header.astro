@@ -1,9 +1,10 @@
 ---
 import { NAV } from '../data/site';
 import Logo from './Logo.astro';
+import { withBase } from '../lib/url';
 ---
 <header class="header" data-header>
-  <a class="header__brand" href="/"><Logo class="header__logo" /></a>
+  <a class="header__brand" href={withBase('/')}><Logo class="header__logo" /></a>
   <nav class="header__nav" aria-label="Principal">
     <ul>
       {NAV.map(({ href, label }) => (
