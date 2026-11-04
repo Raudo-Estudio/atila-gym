@@ -61,7 +61,7 @@ import OpenStatus from '../OpenStatus.astro';
 
 <style>
   .hero {
-    --mx: 30%;
+    --mx: 70%;
     --my: 50%;
     --rx: 0deg;
     --ry: 0deg;
@@ -81,7 +81,7 @@ import OpenStatus from '../OpenStatus.astro';
 
   .hero__halo {
     position: absolute;
-    left: 22%;
+    left: 78%;
     top: 55%;
     z-index: -2;
     width: min(120vw, 1200px);
@@ -99,15 +99,15 @@ import OpenStatus from '../OpenStatus.astro';
   }
   .hero.is-lit .hero__spot { opacity: 1; }
 
-  /* The mark as the hero's object: huge, cut by the left edge, turned on the slant of the A legs (about 18deg). */
+  /* The mark as the hero's object: huge, cut by the right edge, turned on the slant of the A legs (about 18deg). */
   .hero__mark {
     position: absolute;
-    left: -22%;
+    right: -22%;
     top: 46%;
     z-index: 0;
     width: 120vw;
     translate: 0 -50%;
-    rotate: -18deg;
+    rotate: 18deg;
     perspective: 1200px;
     pointer-events: none;
   }
@@ -125,12 +125,11 @@ import OpenStatus from '../OpenStatus.astro';
     z-index: 2;
     display: grid;
     gap: 2rem;
-    justify-items: end;
-    text-align: right;
+    justify-items: start;
   }
   .hero__title {
     display: grid;
-    justify-items: end;
+    justify-items: start;
     font-size: clamp(4.5rem, 19vw, 13rem);
     letter-spacing: -0.02em;
     line-height: 0.82;
@@ -140,11 +139,11 @@ import OpenStatus from '../OpenStatus.astro';
   .hero__mask { display: block; overflow: hidden; padding-top: 0.04em; }
   .hero__line { display: block; }
 
-  .hero__foot { display: grid; gap: 1.5rem; justify-items: end; }
+  .hero__foot { display: grid; gap: 1.5rem; justify-items: start; }
   .hero__where { display: grid; gap: 0.25rem; }
   .hero__where :global(.open-status) { color: var(--blanco); font-weight: 500; }
   .hero__muted { color: var(--metal); font-size: var(--step-small); }
-  .hero__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
   /* Phone: the mark rides higher and quieter so the name below reads clean. */
   @media (max-width: 59.99rem) {
@@ -159,14 +158,14 @@ import OpenStatus from '../OpenStatus.astro';
   .js .hero__foot { animation: fade 600ms ease-out 700ms backwards; }
 
   @keyframes rise { from { transform: translateY(105%); } }
-  @keyframes mark-in { from { opacity: 0; rotate: -8deg; scale: 0.9; filter: blur(10px); } }
+  @keyframes mark-in { from { opacity: 0; rotate: 8deg; scale: 0.9; filter: blur(10px); } }
   @keyframes fade { from { opacity: 0; transform: translateY(12px); } }
 
   @media (min-width: 60rem) {
     .hero { align-items: center; padding-bottom: 4rem; }
-    .hero__mark { left: -14%; top: 52%; width: 72vw; }
-    .hero__halo { left: 24%; }
-    .hero__copy { justify-self: end; width: 52%; }
+    .hero__mark { right: -14%; top: 52%; width: 72vw; }
+    .hero__halo { left: 76%; }
+    .hero__copy { justify-self: start; width: 52%; }
     .hero__title { font-size: clamp(6rem, 13vw, 15rem); }
   }
 </style>
