@@ -33,7 +33,7 @@ import { SITE } from '../data/site';
   .whatsapp-fab:active { transform: scale(0.96); }
   .whatsapp-fab svg { width: 1.6rem; height: 1.6rem; flex: none; }
   .whatsapp-fab__label { display: none; }
-  .js .whatsapp-fab { animation: fab-in 500ms var(--ease-out) 900ms backwards; }
+  :global(.js) .whatsapp-fab { animation: fab-in 500ms var(--ease-out) 900ms backwards; }
   @keyframes fab-in { from { opacity: 0; transform: translateY(1rem) scale(0.9); } }
   @media (min-width: 48rem) {
     .whatsapp-fab { padding-right: 1.25rem; }

@@ -79,7 +79,7 @@ const saturday = HOURS[6];
     background: var(--blanco);
     transform: translate(-50%, -50%);
   }
-  .js .barra__now { animation: slide 1200ms var(--ease-out) 300ms backwards; }
+  :global(.js) .barra__now { animation: slide 1200ms var(--ease-out) 300ms backwards; }
   @keyframes slide { from { left: 0; } }
   .barra__ends { display: flex; justify-content: space-between; margin-top: 0.4rem; color: var(--metal); font-size: var(--step-small); }
   .hours { display: grid; gap: 0.4rem; justify-self: stretch; margin: 0; }

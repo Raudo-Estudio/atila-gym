@@ -4,6 +4,7 @@ import Button from '../Button.astro';
 import Logo from '../Logo.astro';
 import OpenStatus from '../OpenStatus.astro';
 ---
+<div class="intro" aria-hidden="true"><span class="intro__bar"></span></div>
 <div class="hero" data-hero>
   <div class="hero__halo" aria-hidden="true"></div>
   <div class="hero__spot" aria-hidden="true"></div>
@@ -148,13 +149,71 @@ import OpenStatus from '../OpenStatus.astro';
     .hero__halo { top: 32%; }
   }
 
-  .js .hero__line { animation: rise 900ms var(--ease-out) backwards; }
-  .js .hero__l2 .hero__line { animation-delay: 120ms; }
-  .js .hero__mark { animation: mark-in 1600ms var(--ease-out) backwards; }
-  .js .hero__foot { animation: fade 600ms ease-out 700ms backwards; }
+  /*
+   * Opening, about 2 s: a red bar grows from the centre like the logo's barbell, the screen splits
+   * open along it, then the logo is built piece by piece: bar, plates from the bar outward, the A.
+   */
+  .intro { display: none; }
+  :global(.js) .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: block;
+    pointer-events: none;
+    animation: intro-gone 1ms linear 1.1s forwards;
+  }
+  .intro::before,
+  .intro::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50.5%;
+    background: var(--carbon);
+  }
+  .intro::before { top: 0; animation: open-up 650ms cubic-bezier(0.7, 0, 0.2, 1) 450ms forwards; }
+  .intro::after { bottom: 0; animation: open-down 650ms cubic-bezier(0.7, 0, 0.2, 1) 450ms forwards; }
+  .intro__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    z-index: 1;
+    height: 4px;
+    translate: 0 -50%;
+    background: var(--rojo);
+    transform: scaleX(0);
+    animation: grow-x 450ms var(--ease-out) forwards, fade-out 250ms ease-in 500ms forwards;
+  }
 
+  :global(.js) .hero__line { animation: rise 900ms var(--ease-out) 750ms backwards; }
+  :global(.js) .hero__l2 .hero__line { animation-delay: 870ms; }
+  :global(.js) .hero__foot { animation: fade 600ms ease-out 1.35s backwards; }
+  :global(.js) .hero__halo { animation: fade-in 900ms ease-out 1.8s backwards; }
+
+  .hero :global(.hero__logo .logo__bar),
+  .hero :global(.hero__logo .logo__plate),
+  .hero :global(.hero__logo .logo__a) { transform-box: fill-box; transform-origin: center; }
+  :global(.js) .hero :global(.hero__logo .logo__bar) { animation: grow-x 450ms var(--ease-out) 0.9s backwards; }
+  :global(.js) .hero :global(.hero__logo .logo__plate) {
+    animation: plate-on 380ms cubic-bezier(0.3, 1.4, 0.5, 1) backwards;
+    animation-delay: calc(1.25s + var(--i) * 100ms);
+  }
+  :global(.js) .hero :global(.hero__logo .logo__a) { animation: a-rise 600ms var(--ease-out) 1.6s backwards; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .intro { display: none; }
+  }
+
+  @keyframes intro-gone { to { visibility: hidden; } }
+  @keyframes open-up { to { transform: translateY(-100%); } }
+  @keyframes open-down { to { transform: translateY(100%); } }
+  @keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes fade-out { to { opacity: 0; } }
+  @keyframes fade-in { from { opacity: 0; } }
+  @keyframes plate-on { from { transform: scale(0); } }
+  @keyframes a-rise { from { clip-path: inset(100% 0 0 0); transform: translateY(12%); } to { clip-path: inset(0); } }
   @keyframes rise { from { transform: translateY(105%); } }
-  @keyframes mark-in { from { opacity: 0; scale: 0.9; filter: blur(10px); } }
   @keyframes fade { from { opacity: 0; transform: translateY(12px); } }
 
   @media (min-width: 60rem) {
