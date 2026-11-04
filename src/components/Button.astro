@@ -13,24 +13,57 @@ const { href, variant = 'primary', external = false } = Astro.props;
 ><slot /></a>
 
 <style>
+  /*
+   * The sides are cut on the slant of the logo's A legs (68 across for 212 down, about 0.32),
+   * so a button reads as a piece of the mark. The shape lives on ::before so the clip never
+   * eats the keyboard focus outline.
+   */
   .button {
+    --fill: var(--rojo);
+    --sweep: var(--blanco);
+    --ink-hover: var(--carbon);
+    --slant: 1rem;
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 3.25rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    font-weight: 500;
+    padding: 0.75rem calc(1.25rem + var(--slant));
+    color: var(--blanco);
+    font-weight: 600;
+    letter-spacing: 0.01em;
     text-decoration: none;
-    transition: transform 160ms var(--ease-out), background-color 160ms, color 160ms;
+    transition: color 250ms var(--ease-out), transform 160ms var(--ease-out);
   }
+  .button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+    background: linear-gradient(var(--sweep), var(--sweep)) left / 0% 100% no-repeat, var(--fill);
+    transition: background-size 350ms var(--ease-out);
+  }
+  .button:hover { color: var(--ink-hover); }
+  .button:hover::before { background-size: 100% 100%, auto; }
   .button:active { transform: scale(0.97); }
-  .button--primary { background: var(--rojo); color: var(--blanco); }
-  .button--primary:hover { background: var(--blanco); color: var(--carbon); }
-  .button--ink { background: var(--carbon); color: var(--blanco); }
-  .button--ink:hover { background: var(--blanco); color: var(--carbon); }
-  .button--ghost { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35); color: var(--blanco); }
-  .button--ghost:hover { box-shadow: inset 0 0 0 1px var(--blanco); background: rgb(255 255 255 / 0.06); }
-  .button--quiet { min-height: 2.75rem; padding-inline: 0; text-decoration: underline; text-underline-offset: 0.25em; }
-  .button--quiet:hover { text-decoration-thickness: 3px; }
+
+  .button--ink { --fill: var(--carbon); }
+  .button--ghost { --fill: rgb(255 255 255 / 0.1); }
+
+  /* Text link: a short red bar under it that runs the full width on hover. */
+  .button--quiet {
+    min-height: 2.75rem;
+    padding: 0;
+    background: linear-gradient(var(--rojo), var(--rojo)) left bottom 0.55rem / 1.5rem 2px no-repeat;
+    transition: background-size 300ms var(--ease-out);
+  }
+  .button--quiet::before { display: none; }
+  .button--quiet:hover { color: var(--blanco); background-size: 100% 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button::before,
+    .button--quiet { transition: none; }
+  }
 </style>

@@ -1,5 +1,6 @@
 ---
 import { HOURS, SITE } from '../../data/site';
+import Button from '../Button.astro';
 
 const format = (time: string | null) => (time ? Number(time.split(':')[0]) : '');
 const weekday = HOURS[1];
@@ -26,7 +27,7 @@ const saturday = HOURS[6];
       <div><dt>Domingos</dt><dd>Cerrado</dd></div>
     </dl>
     <address>{SITE.streetAddress}, {SITE.locality}</address>
-    <a class="horarios__route" href={SITE.directionsUrl} target="_blank" rel="noopener">Cómo llegar</a>
+    <Button href={SITE.directionsUrl} variant="ghost" external>Cómo llegar</Button>
   </div>
   <iframe
     class="horarios__map"
@@ -86,19 +87,6 @@ const saturday = HOURS[6];
   .hours dt { color: var(--metal); }
   .hours dd { margin: 0; font-weight: 500; }
   address { color: var(--metal); font-style: normal; }
-  .horarios__route {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    padding: 0.5rem 1.25rem;
-    border-radius: 999px;
-    background: var(--blanco);
-    color: var(--carbon);
-    font-weight: 500;
-    text-decoration: none;
-    transition: background-color 160ms, color 160ms;
-  }
-  .horarios__route:hover { background: var(--rojo); color: var(--blanco); }
   .horarios__map {
     width: 100%;
     aspect-ratio: 4 / 3;
