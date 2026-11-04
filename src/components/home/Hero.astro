@@ -1,59 +1,179 @@
 ---
 import { SITE } from '../../data/site';
 import Button from '../Button.astro';
+import Logo from '../Logo.astro';
 import OpenStatus from '../OpenStatus.astro';
-import Photo from '../Photo.astro';
 ---
-<div class="hero">
-  <div class="hero__copy">
-    <h1 class="hero__title">
-      <span class="hero__mask"><span class="hero__line">Atila Gym</span></span>
-      <span class="visually-hidden">, gimnasio en General Pacheco</span>
-    </h1>
-    <p class="hero__lead">
-      Gimnasio de musculación en General Pacheco. Cuatro pisos, máquinas por grupo muscular y profes en sala.
-    </p>
-    <div class="hero__actions">
-      <Button href={SITE.whatsappUrl} variant="ink" external>Escribinos por WhatsApp</Button>
+<div class="hero" data-hero>
+  <div class="hero__wall" aria-hidden="true">Pacheco</div>
+  <div class="hero__halo" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
+
+  <div class="hero__mark" aria-hidden="true">
+    <Logo withName={false} class="hero__logo" />
+  </div>
+
+  <h1 class="hero__title">
+    <span class="hero__mask hero__l1"><span class="hero__line">Atila</span></span>
+    <span class="hero__mask hero__l2"><span class="hero__line">Gym</span></span>
+    <span class="visually-hidden">, gimnasio de musculación en General Pacheco</span>
+  </h1>
+
+  <div class="hero__foot">
+    <div class="hero__where">
       <OpenStatus />
+      <p>{SITE.streetAddress}, {SITE.locality}</p>
+      <p class="hero__muted">Cuatro pisos, máquinas por grupo muscular y profes en sala</p>
+    </div>
+    <div class="hero__actions">
+      <Button href={SITE.whatsappUrl} external>Escribinos por WhatsApp</Button>
+      <Button href="/#salones" variant="ghost">Ver los salones</Button>
     </div>
   </div>
-  <Photo
-    class="hero__photo"
-    src="/media/portada.webp"
-    width={928}
-    height={1152}
-    alt="Sala de musculación con racks de mancuernas y bancos rojos"
-    ratio="4 / 5"
-    eager
-  />
 </div>
+
+<script>
+  // A soft red light follows the pointer and the logo leans toward it.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const fine = matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches;
+  if (hero && fine) {
+    let frame = 0;
+    hero.addEventListener('pointermove', (event) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const box = hero.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width;
+        const y = (event.clientY - box.top) / box.height;
+        hero.style.setProperty('--mx', `${x * 100}%`);
+        hero.style.setProperty('--my', `${y * 100}%`);
+        hero.style.setProperty('--rx', `${(0.5 - y) * 14}deg`);
+        hero.style.setProperty('--ry', `${(x - 0.5) * 18}deg`);
+        hero.classList.add('is-lit');
+      });
+    });
+    hero.addEventListener('pointerleave', () => {
+      hero.classList.remove('is-lit');
+      hero.style.setProperty('--rx', '0deg');
+      hero.style.setProperty('--ry', '0deg');
+    });
+  }
+</script>
 
 <style>
   .hero {
+    --mx: 50%;
+    --my: 45%;
+    --rx: 0deg;
+    --ry: 0deg;
+    position: relative;
     display: grid;
-    gap: 2.5rem;
-    padding: 7rem var(--margin) var(--section-space);
-    background: var(--rojo);
+    grid-template-rows: 1fr auto;
+    min-height: 100svh;
+    padding: 6rem var(--margin) 2rem;
+    /* Room under the actions for the floating WhatsApp button. */
+    padding-bottom: 5.5rem;
+    overflow: hidden;
+    isolation: isolate;
+    /* Lit zones and dark zones instead of a flat field. */
+    background:
+      radial-gradient(60% 55% at 85% 100%, rgb(210 32 42 / 0.18), transparent 70%),
+      radial-gradient(45% 45% at 0% 0%, rgb(210 32 42 / 0.1), transparent 70%),
+      var(--carbon);
   }
-  .hero__copy { display: grid; align-content: center; gap: 1.5rem; justify-items: start; }
-  .hero__title { font-size: var(--step-display); letter-spacing: -0.02em; line-height: 0.9; }
+
+  .hero__wall {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    display: grid;
+    place-items: center;
+    color: transparent;
+    font-family: var(--font-display);
+    font-size: 24vw;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.07);
+    user-select: none;
+  }
+  .hero__halo {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    z-index: -2;
+    width: min(100vw, 1100px);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: radial-gradient(closest-side, rgb(210 32 42 / 0.32), rgb(80 10 14 / 0.4) 45%, transparent);
+  }
+  .hero__spot {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(600px circle at var(--mx) var(--my), rgb(255 70 70 / 0.16), transparent 60%);
+    transition: opacity 400ms;
+  }
+  .hero.is-lit .hero__spot { opacity: 1; }
+
+  .hero__mark {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    z-index: 1;
+    width: min(70vw, 34rem);
+    translate: -50% -50%;
+    perspective: 900px;
+  }
+  .hero :global(.hero__logo) {
+    width: 100%;
+    color: var(--rojo);
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.6)) drop-shadow(0 0 60px rgb(210 32 42 / 0.35));
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transition: transform 500ms var(--ease-out);
+  }
+
+  .hero__title {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    align-content: space-between;
+    font-size: clamp(4rem, 13vw, 11rem);
+    letter-spacing: -0.02em;
+    line-height: 0.85;
+  }
   .hero__mask { display: block; overflow: hidden; padding-top: 0.04em; }
   .hero__line { display: block; }
-  .hero__lead { max-width: 34ch; font-size: var(--step-lead); line-height: 1.35; }
-  .hero__actions { display: grid; gap: 1rem; justify-items: start; }
-  .hero__actions :global(.open-status) { color: var(--blanco); font-size: var(--step-small); }
-  .hero :global(.hero__photo) { max-height: 70svh; }
-  .hero :global(.photo--pending) { color: var(--blanco); }
+  .hero__l2 { justify-self: end; }
+  @media (max-width: 59.99rem) {
+    .hero__title { min-height: 52svh; }
+    .hero__mark { top: 34%; }
+    .hero__halo { top: 34%; }
+  }
+
+  .hero__foot {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .hero__where { display: grid; gap: 0.25rem; }
+  .hero__where :global(.open-status) { color: var(--blanco); font-weight: 500; }
+  .hero__muted { color: var(--metal); font-size: var(--step-small); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
   .js .hero__line { animation: rise 900ms var(--ease-out) backwards; }
-  .js .hero__lead,
-  .js .hero__actions { animation: fade 600ms ease-out 500ms backwards; }
+  .js .hero__l2 .hero__line { animation-delay: 120ms; }
+  .js .hero__mark { animation: mark-in 1400ms var(--ease-out) 150ms backwards; }
+  .js .hero__foot { animation: fade 600ms ease-out 700ms backwards; }
 
   @keyframes rise { from { transform: translateY(105%); } }
+  @keyframes mark-in { from { opacity: 0; scale: 0.85; filter: blur(8px); } }
   @keyframes fade { from { opacity: 0; transform: translateY(12px); } }
 
   @media (min-width: 60rem) {
-    .hero { grid-template-columns: 7fr 5fr; align-items: center; gap: 4rem; min-height: 88svh; }
+    .hero__foot { grid-template-columns: 1fr auto; align-items: end; }
   }
 </style>

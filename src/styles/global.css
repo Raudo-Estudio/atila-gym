@@ -80,6 +80,22 @@ section[id] { scroll-margin-top: 5rem; }
 .js [role='tabpanel']:not([hidden]) { animation: panel-in 380ms var(--ease-out); }
 @keyframes panel-in { from { opacity: 0; transform: translateY(8px); } }
 
+/* Photos melted into the dark page, as the ArenaPro renders: red fog behind, edges dissolving.
+   Full scenes (not objects on black) need a tighter fade than the renders did. */
+.blend { position: relative; isolation: isolate; }
+.blend::before {
+  content: '';
+  position: absolute;
+  inset: 8% -6%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(210 32 42 / 0.2), rgb(60 8 12 / 0.35) 55%, transparent);
+  filter: blur(40px);
+}
+.blend img {
+  -webkit-mask-image: radial-gradient(ellipse 56% 60% at 50% 50%, #000 38%, transparent 100%);
+  mask-image: radial-gradient(ellipse 56% 60% at 50% 50%, #000 38%, transparent 100%);
+}
+
 .skip-link {
   position: absolute;
   left: var(--margin);

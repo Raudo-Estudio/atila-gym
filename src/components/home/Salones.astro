@@ -44,7 +44,7 @@ const rooms = [
   </div>
   {rooms.map(({ id, title, text, photo, src, alt }) => (
     <div class="room" role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`}>
-      <Photo src={src} alt={alt ?? photo} ratio="16 / 9" width={1264} height={848} />
+      <div class="blend"><Photo src={src} alt={alt ?? photo} ratio="16 / 9" width={1264} height={848} /></div>
       <div class="room__body">
         <h3>{title}</h3>
         <p>{text}</p>
@@ -55,17 +55,12 @@ const rooms = [
 </section>
 
 <style>
-  .salones { padding: var(--section-space) var(--margin); background: var(--plancha); }
+  .salones { padding: var(--section-space) var(--margin); background: var(--carbon); }
   .salones__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 1.75rem; }
   .salones__head .tabs { margin: 0; }
   .room { display: grid; gap: 1.5rem; }
   .room + .room { margin-top: 2rem; }
   .salones.is-tabbed .room + .room { margin-top: 0; }
-  /* Rooms dissolve into the section ground instead of sitting in a frame. */
-  .room :global(img.photo) {
-    -webkit-mask-image: radial-gradient(ellipse 62% 70% at 42% 45%, #000 35%, transparent 100%);
-    mask-image: radial-gradient(ellipse 62% 70% at 42% 45%, #000 35%, transparent 100%);
-  }
   .room :global(.photo--pending) { background: var(--carbon); }
   .room__body { display: grid; gap: 0.75rem; align-content: end; justify-items: start; }
   .room__body p { max-width: 36ch; color: var(--metal); }
