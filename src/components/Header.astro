@@ -7,18 +7,40 @@ import Logo from './Logo.astro';
   <nav class="header__nav" aria-label="Principal">
     <ul>
       {NAV.map(({ href, label }) => (
-        <li><a href={href}>{label}</a></li>
+        <li><a href={href} data-nav>{label}</a></li>
       ))}
     </ul>
   </nav>
 </header>
 
 <script>
-  // Transparent over the red hero, solid once the page moves under it.
   const header = document.querySelector<HTMLElement>('[data-header]');
+
+  // Transparent over the hero, solid once the page moves under it.
   const update = () => header?.classList.toggle('is-solid', scrollY > 24);
   addEventListener('scroll', update, { passive: true });
   update();
+
+  // The hero already shows the mark large, so the small one waits until it scrolls away.
+  if (document.querySelector('[data-hero]')) header?.classList.add('has-hero');
+
+  // Mark the link of the section on screen.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')];
+  const byId = new Map(links.map((link) => [link.hash.slice(1), link]));
+  const sections = [...byId.keys()].map((id) => document.getElementById(id)).filter((s) => s !== null);
+  // The section crossing a line at 35% of the screen is the current one; between nav sections, none is.
+  const markCurrent = () => {
+    const line = innerHeight * 0.35;
+    const current = sections.find((section) => {
+      const box = section.getBoundingClientRect();
+      return box.top <= line && box.bottom > line;
+    });
+    const active = current && byId.get(current.id);
+    links.forEach((link) => (link === active ? link.setAttribute('aria-current', 'true') : link.removeAttribute('aria-current')));
+  };
+  // Three rects per scroll is cheap enough to run directly, with no frame of lag.
+  addEventListener('scroll', markCurrent, { passive: true });
+  markCurrent();
 </script>
 
 <style>
@@ -34,15 +56,36 @@ import Logo from './Logo.astro';
     transition: background-color 250ms, padding 250ms;
   }
   .header.is-solid { background: var(--carbon); }
-  .header__brand { display: block; color: var(--blanco); }
-  .header :global(.header__logo) { width: 4.25rem; transition: width 250ms var(--ease-out); }
-  .header.is-solid :global(.header__logo) { width: 3.5rem; }
-  .header.is-solid .header__brand { color: var(--rojo); }
-  .header__nav ul { display: flex; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
-  .header__nav a { display: inline-block; padding-block: 0.5rem; font-weight: 500; text-decoration: none; }
-  .header__nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+  .header__brand {
+    display: block;
+    color: var(--rojo);
+    transition: opacity 300ms, visibility 300ms;
+  }
+  .header.has-hero:not(.is-solid) .header__brand { opacity: 0; visibility: hidden; }
+  .header :global(.header__logo) { width: 3.5rem; }
+
+  .header__nav { margin-left: auto; }
+  .header__nav ul { display: flex; gap: 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .header__nav a {
+    display: inline-block;
+    padding-block: 0.6rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    /* Same short red bar as the text links; it runs full width on the current section. */
+    background: linear-gradient(var(--rojo), var(--rojo)) left bottom 0.3rem / 0 2px no-repeat;
+    transition: background-size 300ms var(--ease-out), color 160ms;
+  }
+  .header__nav a:hover { background-size: 1.25rem 2px; }
+  .header__nav a[aria-current] { background-size: 100% 2px; }
+
   @media (min-width: 48rem) {
-    .header__nav ul { gap: 2rem; }
-    .header :global(.header__logo) { width: 5rem; }
+    .header__nav ul { gap: 2.5rem; }
+    .header :global(.header__logo) { width: 4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header__nav a,
+    .header__brand { transition: none; }
   }
 </style>
